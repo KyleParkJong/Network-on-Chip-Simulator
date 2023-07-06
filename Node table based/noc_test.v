@@ -366,7 +366,7 @@ initial begin
         /* Initialization */    
         #0                      
         counter = 0;            
-        stop    = 50; //stop signal 변경         
+        stop    = 200; //stop signal 변경         
         clk     <= `High;       
         ready   <= `Disable;    
         /* Send/recv counters */
@@ -775,50 +775,8 @@ initial begin
         `endif                    
 end                               
 
-/* send_packet_u_(num)(dst, vch, len): send a packet from router to dst unicast*/
-task send_packet_u_0;
-input [10:0] dst; // binary_encoding
-input [31:0] vch;
-input [31:0] len; // packet length
-reg [`DATAW:0]  packet [0:63];
-integer id; 
-begin      
-        n0_ivalid_p0 <= `Disable;   
-        for ( id = 0; id < len; id = id + 1 ) 
-                packet[id] <= 0; 
-        #(STEP) // # delay operator
-        if (len == 1) // Header
-                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
-        else 
-                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
-        packet[0][`UM_TYPE] <= 0; //Mul/Uni     
-        packet[0][`DST_MSB:`DST_LSB] <= dst;    /* Dest ID (11-bit) (62~52)*/
-        packet[0][`SRC_MSB:`SRC_LSB] <= 0;     /* Source ID (5-bit) (2~6)*/
-        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    /* Vch ID (2-bit)    (0~1)*/
-        for ( id = 1; id < len; id = id + 1 ) begin //body,tail bit 
-                if ( id == len - 1 )
-                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
-                else 
-                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
-                packet[id][15:12] <= id;
-                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
-        end 
-        id = 0;                                 
-        while ( id < len ) begin                
-                #(STEP)                         
-                /* Packet level flow control */ 
-                if ( (id == 0 && n0_ordy_p0[vch]) || id > 0 ) begin 
-                        n0_idata_p0 <= packet[id]; n0_ivalid_p0 <= `Enable; n0_ivch_p0 <= vch; id = id + 1; 
-                end else begin    
-                        n0_idata_p0 <= `DATAW_P1'b0; n0_ivalid_p0 <= `Disable;  
-                end 
-        end 
-        #(STEP) 
-        n0_ivalid_p0 <= `Disable;   
-end             
-endtask  
 
-/* send_packet_m_0 (dst, vch, len): send a packet form router ro dst multicast*/
+/* send_packet_m_0 (dst, vch, len): send a packet from src to dst (Multicast) */
 task send_packet_m_0;
 input [55:0] dst; //one-hot encoding
 input [31:0] vch;
@@ -861,50 +819,7 @@ begin
 end             
 endtask 
 
-/* send_packet_u_(num)(dst, vch, len): send a packet from router to dst unicast*/
-task send_packet_u_1;
-input [10:0] dst; // binary_encoding
-input [31:0] vch;
-input [31:0] len; // packet length
-reg [`DATAW:0]  packet [0:63];
-integer id; 
-begin      
-        n1_ivalid_p0 <= `Disable;   
-        for ( id = 0; id < len; id = id + 1 ) 
-                packet[id] <= 0; 
-        #(STEP) // # delay operator
-        if (len == 1) // Header
-                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
-        else 
-                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
-        packet[0][`UM_TYPE] <= 0; //Mul/Uni     
-        packet[0][`DST_MSB:`DST_LSB] <= dst;    /* Dest ID (11-bit) (62~52)*/
-        packet[0][`SRC_MSB:`SRC_LSB] <= 1;     /* Source ID (5-bit) (2~6)*/
-        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    /* Vch ID (2-bit)    (0~1)*/
-        for ( id = 1; id < len; id = id + 1 ) begin //body,tail bit 
-                if ( id == len - 1 )
-                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
-                else 
-                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
-                packet[id][15:12] <= id;
-                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
-        end 
-        id = 0;                                 
-        while ( id < len ) begin                
-                #(STEP)                         
-                /* Packet level flow control */ 
-                if ( (id == 0 && n1_ordy_p0[vch]) || id > 0 ) begin 
-                        n1_idata_p0 <= packet[id]; n1_ivalid_p0 <= `Enable; n1_ivch_p0 <= vch; id = id + 1; 
-                end else begin    
-                        n1_idata_p0 <= `DATAW_P1'b0; n1_ivalid_p0 <= `Disable;  
-                end 
-        end 
-        #(STEP) 
-        n1_ivalid_p0 <= `Disable;   
-end             
-endtask  
-
-/* send_packet_m_1 (dst, vch, len): send a packet form router ro dst multicast*/
+/* send_packet_m_1 (dst, vch, len): send a packet from src to dst (Multicast) */
 task send_packet_m_1;
 input [55:0] dst; //one-hot encoding
 input [31:0] vch;
@@ -947,50 +862,7 @@ begin
 end             
 endtask  
 
-/* send_packet_u_(num)(dst, vch, len): send a packet from router to dst unicast*/
-task send_packet_u_2;
-input [10:0] dst; // binary_encoding
-input [31:0] vch;
-input [31:0] len; // packet length
-reg [`DATAW:0]  packet [0:63];
-integer id; 
-begin      
-        n2_ivalid_p0 <= `Disable;   
-        for ( id = 0; id < len; id = id + 1 ) 
-                packet[id] <= 0; 
-        #(STEP) // # delay operator
-        if (len == 1) // Header
-                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
-        else 
-                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
-        packet[0][`UM_TYPE] <= 0; //Mul/Uni     
-        packet[0][`DST_MSB:`DST_LSB] <= dst;    /* Dest ID (11-bit) (62~52)*/
-        packet[0][`SRC_MSB:`SRC_LSB] <= 2;     /* Source ID (5-bit) (2~6)*/
-        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    /* Vch ID (2-bit)    (0~1)*/
-        for ( id = 1; id < len; id = id + 1 ) begin //body,tail bit 
-                if ( id == len - 1 )
-                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
-                else 
-                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
-                packet[id][15:12] <= id;
-                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
-        end 
-        id = 0;                                 
-        while ( id < len ) begin                
-                #(STEP)                         
-                /* Packet level flow control */ 
-                if ( (id == 0 && n2_ordy_p0[vch]) || id > 0 ) begin 
-                        n2_idata_p0 <= packet[id]; n2_ivalid_p0 <= `Enable; n2_ivch_p0 <= vch; id = id + 1; 
-                end else begin    
-                        n2_idata_p0 <= `DATAW_P1'b0; n2_ivalid_p0 <= `Disable;  
-                end 
-        end 
-        #(STEP) 
-        n2_ivalid_p0 <= `Disable;   
-end             
-endtask  
-
-/* send_packet_m_(num) (dst, vch, len): send a packet form router ro dst multicast*/
+/* send_packet_m_(num) (dst, vch, len): send a packet from src to dst (Multicast) */
 task send_packet_m_2;
 input [55:0] dst; //one-hot encoding
 input [31:0] vch;
@@ -1032,6 +904,135 @@ begin
         n2_ivalid_p0 <= `Disable;  
 end             
 endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from router to dst (Unicast) */
+task send_packet_u_0;
+input [10:0] dst; // binary_encoding
+input [31:0] vch;
+input [31:0] len; // packet length
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n0_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) // # delay operator
+        if (len == 1) // Header
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0; //Mul/Uni     
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    /* Dest ID (11-bit) (62~52)*/
+        packet[0][`SRC_MSB:`SRC_LSB] <= 0;     /* Source ID (5-bit) (2~6)*/
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    /* Vch ID (2-bit)    (0~1)*/
+        for ( id = 1; id < len; id = id + 1 ) begin //body,tail bit 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n0_ordy_p0[vch]) || id > 0 ) begin 
+                        n0_idata_p0 <= packet[id]; n0_ivalid_p0 <= `Enable; n0_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n0_idata_p0 <= `DATAW_P1'b0; n0_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n0_ivalid_p0 <= `Disable;   
+end             
+endtask  
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from router to dst (Unicast) */
+task send_packet_u_1;
+input [10:0] dst; // binary_encoding
+input [31:0] vch;
+input [31:0] len; // packet length
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n1_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) // # delay operator
+        if (len == 1) // Header
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0; //Mul/Uni     
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    /* Dest ID (11-bit) (62~52)*/
+        packet[0][`SRC_MSB:`SRC_LSB] <= 1;     /* Source ID (5-bit) (2~6)*/
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    /* Vch ID (2-bit)    (0~1)*/
+        for ( id = 1; id < len; id = id + 1 ) begin //body,tail bit 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n1_ordy_p0[vch]) || id > 0 ) begin 
+                        n1_idata_p0 <= packet[id]; n1_ivalid_p0 <= `Enable; n1_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n1_idata_p0 <= `DATAW_P1'b0; n1_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n1_ivalid_p0 <= `Disable;   
+end             
+endtask  
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from router to dst (Unicast) */
+task send_packet_u_2;
+input [10:0] dst; // binary_encoding
+input [31:0] vch;
+input [31:0] len; // packet length
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n2_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) // # delay operator
+        if (len == 1) // Header
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0; //Mul/Uni     
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    /* Dest ID (11-bit) (62~52)*/
+        packet[0][`SRC_MSB:`SRC_LSB] <= 2;     /* Source ID (5-bit) (2~6)*/
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    /* Vch ID (2-bit)    (0~1)*/
+        for ( id = 1; id < len; id = id + 1 ) begin //body,tail bit 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n2_ordy_p0[vch]) || id > 0 ) begin 
+                        n2_idata_p0 <= packet[id]; n2_ivalid_p0 <= `Enable; n2_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n2_idata_p0 <= `DATAW_P1'b0; n2_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n2_ivalid_p0 <= `Disable;   
+end             
+endtask  
 
 /* send_packet_u_(num)(dst, vch, len): send a packet from router to dst unicast*/
 task send_packet_u_3;
@@ -1076,39 +1077,39 @@ begin
 end             
 endtask  
 
-/* send_packet_u_(num)(dst, vch, len): send a packet from router to dst unicast*/
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
 task send_packet_u_4;
-input [10:0] dst; // binary_encoding
+input [10:0] dst; 
 input [31:0] vch;
-input [31:0] len; // packet length
+input [31:0] len; 
 reg [`DATAW:0]  packet [0:63];
 integer id; 
 begin      
         n4_ivalid_p0 <= `Disable;   
         for ( id = 0; id < len; id = id + 1 ) 
                 packet[id] <= 0; 
-        #(STEP) // # delay operator
-        if (len == 1) // Header
+        #(STEP) 
+        if (len == 1) 
                 packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
         else 
                 packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
-        packet[0][`UM_TYPE] <= 0; //Mul/Uni     
-        packet[0][`DST_MSB:`DST_LSB] <= dst;    /* Dest ID (11-bit) (62~52)*/
-        packet[0][`SRC_MSB:`SRC_LSB] <= 4;     /* Source ID (5-bit) (2~6)*/
-        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    /* Vch ID (2-bit)    (0~1)*/
-        for ( id = 1; id < len; id = id + 1 ) begin //body,tail bit 
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 4;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
                 if ( id == len - 1 )
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
                 else 
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
                 packet[id][15:12] <= id;
-                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
+                packet[id][31:16] <= counter;	
         end 
         id = 0;                                 
         while ( id < len ) begin                
                 #(STEP)                         
                 /* Packet level flow control */ 
-                if ( (id == 0 && n3_ordy_p0[vch]) || id > 0 ) begin 
+                if ( (id == 0 && n4_ordy_p0[vch]) || id > 0 ) begin 
                         n4_idata_p0 <= packet[id]; n4_ivalid_p0 <= `Enable; n4_ivch_p0 <= vch; id = id + 1; 
                 end else begin    
                         n4_idata_p0 <= `DATAW_P1'b0; n4_ivalid_p0 <= `Disable;  
@@ -1116,6 +1117,651 @@ begin
         end 
         #(STEP) 
         n4_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_5;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n5_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 5;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n5_ordy_p0[vch]) || id > 0 ) begin 
+                        n5_idata_p0 <= packet[id]; n5_ivalid_p0 <= `Enable; n5_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n5_idata_p0 <= `DATAW_P1'b0; n5_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n5_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_6;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n6_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 6;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n6_ordy_p0[vch]) || id > 0 ) begin 
+                        n6_idata_p0 <= packet[id]; n6_ivalid_p0 <= `Enable; n6_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n6_idata_p0 <= `DATAW_P1'b0; n6_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n6_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_7;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n7_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 7;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n7_ordy_p0[vch]) || id > 0 ) begin 
+                        n7_idata_p0 <= packet[id]; n7_ivalid_p0 <= `Enable; n7_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n7_idata_p0 <= `DATAW_P1'b0; n7_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n7_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_8;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n8_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 8;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n8_ordy_p0[vch]) || id > 0 ) begin 
+                        n8_idata_p0 <= packet[id]; n8_ivalid_p0 <= `Enable; n8_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n8_idata_p0 <= `DATAW_P1'b0; n8_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n8_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_9;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n9_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 9;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n9_ordy_p0[vch]) || id > 0 ) begin 
+                        n9_idata_p0 <= packet[id]; n9_ivalid_p0 <= `Enable; n9_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n9_idata_p0 <= `DATAW_P1'b0; n9_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n9_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_10;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n10_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 10;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n10_ordy_p0[vch]) || id > 0 ) begin 
+                        n10_idata_p0 <= packet[id]; n10_ivalid_p0 <= `Enable; n10_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n10_idata_p0 <= `DATAW_P1'b0; n10_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n10_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_11;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n11_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 11;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n11_ordy_p0[vch]) || id > 0 ) begin 
+                        n11_idata_p0 <= packet[id]; n11_ivalid_p0 <= `Enable; n11_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n11_idata_p0 <= `DATAW_P1'b0; n11_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n11_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_12;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n12_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 12;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n12_ordy_p0[vch]) || id > 0 ) begin 
+                        n12_idata_p0 <= packet[id]; n12_ivalid_p0 <= `Enable; n12_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n12_idata_p0 <= `DATAW_P1'b0; n12_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n12_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_13;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n13_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 13;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n13_ordy_p0[vch]) || id > 0 ) begin 
+                        n13_idata_p0 <= packet[id]; n13_ivalid_p0 <= `Enable; n13_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n13_idata_p0 <= `DATAW_P1'b0; n13_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n13_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_14;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n14_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 14;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n14_ordy_p0[vch]) || id > 0 ) begin 
+                        n14_idata_p0 <= packet[id]; n14_ivalid_p0 <= `Enable; n14_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n14_idata_p0 <= `DATAW_P1'b0; n14_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n14_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_15;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n15_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 15;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n15_ordy_p0[vch]) || id > 0 ) begin 
+                        n15_idata_p0 <= packet[id]; n15_ivalid_p0 <= `Enable; n15_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n15_idata_p0 <= `DATAW_P1'b0; n15_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n15_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_16;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n16_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 16;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n16_ordy_p0[vch]) || id > 0 ) begin 
+                        n16_idata_p0 <= packet[id]; n16_ivalid_p0 <= `Enable; n16_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n16_idata_p0 <= `DATAW_P1'b0; n16_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n16_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_17;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n17_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 17;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n17_ordy_p0[vch]) || id > 0 ) begin 
+                        n17_idata_p0 <= packet[id]; n17_ivalid_p0 <= `Enable; n17_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n17_idata_p0 <= `DATAW_P1'b0; n17_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n17_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from src to dst unicast*/
+task send_packet_u_18;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n18_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 18;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n18_ordy_p0[vch]) || id > 0 ) begin 
+                        n18_idata_p0 <= packet[id]; n18_ivalid_p0 <= `Enable; n18_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n18_idata_p0 <= `DATAW_P1'b0; n18_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n18_ivalid_p0 <= `Disable;   
+end             
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from router to dst (Unicast) */
+task send_packet_u_19;
+input [10:0] dst; 
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n19_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) 
+        if (len == 1) 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0;   
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    
+        packet[0][`SRC_MSB:`SRC_LSB] <= 19;     
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    
+        for ( id = 1; id < len; id = id + 1 ) begin 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n19_ordy_p0[vch]) || id > 0 ) begin 
+                        n19_idata_p0 <= packet[id]; n19_ivalid_p0 <= `Enable; n19_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n19_idata_p0 <= `DATAW_P1'b0; n19_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n19_ivalid_p0 <= `Disable;   
 end             
 endtask
 
