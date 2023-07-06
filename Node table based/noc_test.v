@@ -740,15 +740,15 @@ begin
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
                 else 
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
-                packet[id][63:53] <= id;
-                packet[id][58:0] <= counter;	/* Enqueue time (16-bit)*/ 
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
         end 
         id = 0;                                 
         while ( id < len ) begin                
                 #(STEP)                         
                 /* Packet level flow control */ 
                 if ( (id == 0 && n0_ordy_p0[vch]) || id > 0 ) begin 
-                        n0_idata_p0 <= packet[id]; n0_ivalid_p0 <= `Enable; n0_ivch_p0 <= 0; id = id + 1; 
+                        n0_idata_p0 <= packet[id]; n0_ivalid_p0 <= `Enable; n0_ivch_p0 <= vch; id = id + 1; 
                 end else begin    
                         n0_idata_p0 <= `DATAW_P1'b0; n0_ivalid_p0 <= `Disable;  
                 end 
@@ -763,7 +763,7 @@ task send_packet_m_0;
 input [55:0] dst; //one-hot encoding
 input [31:0] vch;
 input [31:0] len; 
-reg [`DATAW:0] packet [0:65]; //64bit data & 2bit type
+reg [`DATAW:0] packet [0:63]; //64bit data & 2bit type
 integer id;
 begin
         n0_ivalid_p0 <= `Disable;
@@ -783,15 +783,15 @@ begin
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
                 else 
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
-                packet[id][63:60] <= id; /* Data*/
-                packet[id][59:0] <= counter;	/* Data (64-bit)*/ 
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Data (64-bit)*/ 
         end
         id = 0;                                 
         while ( id < len ) begin
                 #(STEP)                         
                 /* Packet level flow control */
                 if ( (id == 0 && n0_ordy_p0[vch]) || id > 0 ) begin 
-                        n0_idata_p0 <= packet[id]; n0_ivalid_p0 <= `Enable; n0_ivch_p0 <= 0; id = id + 1; 
+                        n0_idata_p0 <= packet[id]; n0_ivalid_p0 <= `Enable; n0_ivch_p0 <= vch; id = id + 1; 
                 end else begin    
                         n0_idata_p0 <= `DATAW_P1'b0; n0_ivalid_p0 <= `Disable;  
                 end 
@@ -826,15 +826,15 @@ begin
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
                 else 
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
-                packet[id][63:53] <= id;
-                packet[id][58:0] <= counter;	/* Enqueue time (16-bit)*/ 
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
         end 
         id = 0;                                 
         while ( id < len ) begin                
                 #(STEP)                         
                 /* Packet level flow control */ 
                 if ( (id == 0 && n1_ordy_p0[vch]) || id > 0 ) begin 
-                        n1_idata_p0 <= packet[id]; n1_ivalid_p0 <= `Enable; n1_ivch_p0 <= 0; id = id + 1; 
+                        n1_idata_p0 <= packet[id]; n1_ivalid_p0 <= `Enable; n1_ivch_p0 <= vch; id = id + 1; 
                 end else begin    
                         n1_idata_p0 <= `DATAW_P1'b0; n1_ivalid_p0 <= `Disable;  
                 end 
@@ -849,7 +849,7 @@ task send_packet_m_1;
 input [55:0] dst; //one-hot encoding
 input [31:0] vch;
 input [31:0] len; 
-reg [`DATAW:0] packet [0:65]; //64bit data & 2bit type
+reg [`DATAW:0] packet [0:63]; //64bit data & 2bit type
 integer id;
 begin
         n1_ivalid_p0 <= `Disable;
@@ -869,15 +869,15 @@ begin
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
                 else 
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
-                packet[id][63:60] <= id; /* Data*/
-                packet[id][59:0] <= counter;	/* Data (64-bit)*/ 
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Data (64-bit)*/ 
         end
         id = 0;                                 
         while ( id < len ) begin
                 #(STEP)                         
                 /* Packet level flow control */
                 if ( (id == 0 && n1_ordy_p0[vch]) || id > 0 ) begin 
-                        n1_idata_p0 <= packet[id]; n1_ivalid_p0 <= `Enable; n1_ivch_p0 <= 0; id = id + 1; 
+                        n1_idata_p0 <= packet[id]; n1_ivalid_p0 <= `Enable; n1_ivch_p0 <= vch; id = id + 1; 
                 end else begin    
                         n1_idata_p0 <= `DATAW_P1'b0; n1_ivalid_p0 <= `Disable;  
                 end 
@@ -912,15 +912,15 @@ begin
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
                 else 
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
-                packet[id][63:53] <= id;
-                packet[id][58:0] <= counter;	/* Enqueue time (16-bit)*/ 
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
         end 
         id = 0;                                 
         while ( id < len ) begin                
                 #(STEP)                         
                 /* Packet level flow control */ 
                 if ( (id == 0 && n2_ordy_p0[vch]) || id > 0 ) begin 
-                        n2_idata_p0 <= packet[id]; n2_ivalid_p0 <= `Enable; n2_ivch_p0 <= 0; id = id + 1; 
+                        n2_idata_p0 <= packet[id]; n2_ivalid_p0 <= `Enable; n2_ivch_p0 <= vch; id = id + 1; 
                 end else begin    
                         n2_idata_p0 <= `DATAW_P1'b0; n2_ivalid_p0 <= `Disable;  
                 end 
@@ -935,7 +935,7 @@ task send_packet_m_2;
 input [55:0] dst; //one-hot encoding
 input [31:0] vch;
 input [31:0] len; 
-reg [`DATAW:0] packet [0:65]; //64bit data & 2bit type
+reg [`DATAW:0] packet [0:63]; //64bit data & 2bit type
 integer id;
 begin
         n2_ivalid_p0 <= `Disable;
@@ -955,15 +955,15 @@ begin
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
                 else 
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
-                packet[id][63:60] <= id; /* Data*/
-                packet[id][59:0] <= counter;	/* Data (64-bit)*/ 
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Data (64-bit)*/ 
         end
         id = 0;                                 
         while ( id < len ) begin
                 #(STEP)                         
                 /* Packet level flow control */
                 if ( (id == 0 && n2_ordy_p0[vch]) || id > 0 ) begin 
-                        n2_idata_p0 <= packet[id]; n2_ivalid_p0 <= `Enable; n2_ivch_p0 <= 0; id = id + 1; 
+                        n2_idata_p0 <= packet[id]; n2_ivalid_p0 <= `Enable; n2_ivch_p0 <= vch; id = id + 1; 
                 end else begin    
                         n2_idata_p0 <= `DATAW_P1'b0; n2_ivalid_p0 <= `Disable;  
                 end 

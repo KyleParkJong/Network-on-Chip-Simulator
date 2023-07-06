@@ -155,13 +155,15 @@ vc #( ROUTERID, PCHID, 0 ) vc_0 (
 /*  
  * Data transmission & merge
  */ 
-assign  odata0   = (send0) ? (bdata0[`UM_TYPE] ? merge : bdata0) : `DATAW_P1'b0;
+assign  btype0  = bdata0[`TYPE_MSB:`TYPE_LSB];  // Flit type 
+
+assign  merge = {bdata0[`TYPE_MSB:`UM_TYPE], addr1_rm, bdata0[`MSRC_MSB:`MVCH_LSB]};    // Multicast bdata
+
+assign  bdata00 = bdata0[`UM_TYPE] ? merge : bdata0;    // U/M bdata
+
+assign  odata0   = send0 ? bdata00 : `DATAW_P1'b0;
 
 assign  ovalid0  = send0;
-
-assign  btype0  = bdata0[`TYPE_MSB:`TYPE_LSB];  //type 결정
-
-assign merge = {bdata0[`TYPE_MSB:`UM_TYPE], addr1_rm, bdata0[`MSRC_MSB:`MVCH_LSB]};
 
 /* 
  * Routing computation logic 
