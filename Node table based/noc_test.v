@@ -437,7 +437,7 @@ initial begin
         end 
 
         $write("*** send multicast (src: 0 dst: 4,8,12 vch: 0 len: 9) *** \n");
-        send_packet_m_0 (56'b1000100010000, 0, 9);              // 0 -> 4, 8, 12 
+        send_packet_m_0 (56'b1_0001_0001_0000, 0, 9);              // 0 -> 4, 8, 12 
 end 
 
 /* packet generator for n1 */ 
@@ -449,7 +449,7 @@ initial begin
         end 
 
         $write("*** send multicast (src: 1 dst: 5,9,13 vch: 0 len: 9) *** \n");
-        send_packet_m_1 (56'b10001000100000, 0, 9);             // 1 -> 5, 9, 13
+        send_packet_m_1 (56'b10_0010_0010_0000, 0, 9);             // 1 -> 5, 9, 13
 end 
 
 /* packet generator for n2 */ 
@@ -971,7 +971,94 @@ begin
         #(STEP) 
         n2_ivalid_p0 <= `Disable;  
 end             
-endtask 
+endtask
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from router to dst unicast*/
+task send_packet_u_3;
+input [10:0] dst; // binary_encoding
+input [31:0] vch;
+input [31:0] len; // packet length
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n3_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) // # delay operator
+        if (len == 1) // Header
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0; //Mul/Uni     
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    /* Dest ID (11-bit) (62~52)*/
+        packet[0][`SRC_MSB:`SRC_LSB] <= 3;     /* Source ID (5-bit) (2~6)*/
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    /* Vch ID (2-bit)    (0~1)*/
+        for ( id = 1; id < len; id = id + 1 ) begin //body,tail bit 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n3_ordy_p0[vch]) || id > 0 ) begin 
+                        n3_idata_p0 <= packet[id]; n3_ivalid_p0 <= `Enable; n3_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n3_idata_p0 <= `DATAW_P1'b0; n3_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n3_ivalid_p0 <= `Disable;   
+end             
+endtask  
+
+/* send_packet_u_(num)(dst, vch, len): send a packet from router to dst unicast*/
+task send_packet_u_4;
+input [10:0] dst; // binary_encoding
+input [31:0] vch;
+input [31:0] len; // packet length
+reg [`DATAW:0]  packet [0:63];
+integer id; 
+begin      
+        n4_ivalid_p0 <= `Disable;   
+        for ( id = 0; id < len; id = id + 1 ) 
+                packet[id] <= 0; 
+        #(STEP) // # delay operator
+        if (len == 1) // Header
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 0; //Mul/Uni     
+        packet[0][`DST_MSB:`DST_LSB] <= dst;    /* Dest ID (11-bit) (62~52)*/
+        packet[0][`SRC_MSB:`SRC_LSB] <= 4;     /* Source ID (5-bit) (2~6)*/
+        packet[0][`VCH_MSB:`VCH_LSB] <= vch;    /* Vch ID (2-bit)    (0~1)*/
+        for ( id = 1; id < len; id = id + 1 ) begin //body,tail bit 
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Enqueue time (16-bit)*/ 
+        end 
+        id = 0;                                 
+        while ( id < len ) begin                
+                #(STEP)                         
+                /* Packet level flow control */ 
+                if ( (id == 0 && n3_ordy_p0[vch]) || id > 0 ) begin 
+                        n4_idata_p0 <= packet[id]; n4_ivalid_p0 <= `Enable; n4_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n4_idata_p0 <= `DATAW_P1'b0; n4_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n4_ivalid_p0 <= `Disable;   
+end             
+endtask
+
 
 /* noc_reset(): Reset all routers. */ 
 task noc_reset; 
