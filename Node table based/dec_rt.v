@@ -32,12 +32,12 @@ integer continue;
 always @ (*) begin
     if (um_type == 1) begin
         if (addr1[MY_POS] == 1) begin	// Absorb
-            fwdab_en = 1;
             addr1_rm = addr1;
             addr1_rm[MY_POS] = 0;
             continue = 0;
             for(i = 4; ((i < 20) && (continue == 0)); i = i + 4) begin
                 if((addr1[MY_POS+i] == 1)) begin    //  Forward & Absorb
+                    fwdab_en = 1;
                     next_pos = MY_POS + i;
                     dst_xpos = next_pos[`NODEW_P1:2];
                     dst_ypos = next_pos[1:0];

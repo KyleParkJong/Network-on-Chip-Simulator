@@ -403,8 +403,8 @@ initial begin
         end
 
         /* Statistics */ 
-        total_sent = n0_sent + n1_sent + n2_sent + n3_sent + n4_sent + n5_sent + n6_sent + n7_sent + n8_sent + n9_sent + n10_sent + n11_sent + n12_sent + n13_sent + n14_sent + n15_sent;
-        total_recv = n0_recv + n1_recv + n2_recv + n3_recv + n4_recv + n5_recv + n6_recv + n7_recv + n8_recv + n9_recv + n10_recv + n11_recv + n12_recv + n13_recv + n14_recv + n15_recv;
+        total_sent = n0_sent + n1_sent + n2_sent + n3_sent + n4_sent + n5_sent + n6_sent + n7_sent + n8_sent + n9_sent + n10_sent + n11_sent + n12_sent + n13_sent + n14_sent + n15_sent + n16_sent + n17_sent + n18_sent + n19_sent;
+        total_recv = n0_recv + n1_recv + n2_recv + n3_recv + n4_recv + n5_recv + n6_recv + n7_recv + n8_recv + n9_recv + n10_recv + n11_recv + n12_recv + n13_recv + n14_recv + n15_recv + n16_recv + n17_recv + n18_recv + n19_recv;
         $write("\n\n");    
         $write("*** statistics (%d) *** \n", counter); 
         $write("n0_sent %d \t n0_recv %d \n", n0_sent, n0_recv);
@@ -423,46 +423,50 @@ initial begin
         $write("n13_sent %d \t n13_recv %d \n", n13_sent, n13_recv);
         $write("n14_sent %d \t n14_recv %d \n", n14_sent, n14_recv);
         $write("n15_sent %d \t n15_recv %d \n", n15_sent, n15_recv);
+        $write("n16_sent %d \t n16_recv %d \n", n16_sent, n16_recv);
+        $write("n17_sent %d \t n17_recv %d \n", n17_sent, n17_recv);
+        $write("n18_sent %d \t n18_recv %d \n", n18_sent, n18_recv);
+        $write("n19_sent %d \t n19_recv %d \n", n19_sent, n19_recv);
         $write("total_sent %d \t total_recv %d \n", total_sent, total_recv);
         $write("\n\n");    
         $finish;                                 
 end                             
 
-/* packet generator for n0 */ 
-initial begin 
-        #(STEP / 2); 
-        #(STEP * 10); 
-        while (~ready) begin 
-                #(STEP); 
-        end 
+/* packet generator for n1 */
+initial begin
+    #(STEP / 2);
+    #(STEP * 10);
+    while (~ready) begin
+        #(STEP);
+    end
 
-        $write("*** send multicast (src: 0 dst: 4,8,12 vch: 0 len: 9) *** \n");
-        send_packet_m_0 (56'b1_0001_0001_0000, 0, 9);              // 0 -> 4, 8, 12 
-end 
+    $write("*** Send multicast (src: 1 dst: 5,9,17 vch: 0 len: 9) *** \n");
+    send_packet_m_1 (56'b100000001000100000, 0, 9);
+end
 
-/* packet generator for n1 */ 
-initial begin 
-        #(STEP / 2); 
-        #(STEP * 10); 
-        while (~ready) begin 
-                #(STEP); 
-        end 
+/* packet generator for n2 */
+initial begin
+    #(STEP / 2);
+    #(STEP * 10);
+    while (~ready) begin
+        #(STEP);
+    end
 
-        $write("*** send multicast (src: 1 dst: 5,9,13 vch: 0 len: 9) *** \n");
-        send_packet_m_1 (56'b10_0010_0010_0000, 0, 9);             // 1 -> 5, 9, 13
-end 
+    $write("*** Send multicast (src: 2 dst: 6,14,18 vch: 0 len: 9) *** \n");
+    send_packet_m_2 (56'b1000100000001000000, 0, 9);
+end
 
-/* packet generator for n2 */ 
-initial begin 
-        #(STEP / 2); 
-        #(STEP * 10); 
-        while (~ready) begin 
-                #(STEP); 
-        end 
+/* packet generator for n4 */
+initial begin
+    #(STEP / 2);
+    #(STEP * 10);
+    while (~ready) begin
+        #(STEP);
+    end
 
-        $write("*** send unicast (src: 2 dst: 7 vch: 0 len: 7) *** \n");
-        send_packet_u_2 (7, 0, 7);                             // 2 -> 7
-end 
+    $write("*** Send unicast (src: 4 dst: 7 vch: 0 len: 9) *** \n");
+    send_packet_u_4 (7, 0, 9);
+end
 
 /* Send/recv event monitor */ 
 always @ (posedge clk) begin 
@@ -529,6 +533,22 @@ always @ (posedge clk) begin
         if ( n15_ivalid_p0 == `Enable ) begin 
                 $write("%d n15 send %x \n", counter, n15_idata_p0); 
                 n15_sent = n15_sent + 1;
+        end
+        if ( n16_ivalid_p0 == `Enable ) begin 
+                $write("%d n16 send %x \n", counter, n16_idata_p0); 
+                n16_sent = n16_sent + 1;
+        end
+        if ( n17_ivalid_p0 == `Enable ) begin 
+                $write("%d n17 send %x \n", counter, n17_idata_p0); 
+                n17_sent = n17_sent + 1;
+        end
+        if ( n18_ivalid_p0 == `Enable ) begin 
+                $write("%d n18 send %x \n", counter, n18_idata_p0); 
+                n18_sent = n18_sent + 1;
+        end
+        if ( n19_ivalid_p0 == `Enable ) begin 
+                $write("%d n19 send %x \n", counter, n19_idata_p0); 
+                n19_sent = n19_sent + 1;
         end 
 end 
 
@@ -612,6 +632,26 @@ always @ (posedge clk) begin
                 $write("        %d n15 recv %x \n", counter, n15_odata_p0); 
                 n15_recv = n15_recv + 1; 
                 stop     = counter + 200;
+        end
+        if ( n16_ovalid_p0 == `Enable ) begin 
+                $write("        %d n16 recv %x \n", counter, n16_odata_p0); 
+                n16_recv = n16_recv + 1; 
+                stop     = counter + 200;
+        end
+        if ( n17_ovalid_p0 == `Enable ) begin 
+                $write("        %d n17 recv %x \n", counter, n17_odata_p0); 
+                n17_recv = n17_recv + 1; 
+                stop     = counter + 200;
+        end
+        if ( n18_ovalid_p0 == `Enable ) begin 
+                $write("        %d n18 recv %x \n", counter, n18_odata_p0); 
+                n18_recv = n18_recv + 1; 
+                stop     = counter + 200;
+        end
+        if ( n19_ovalid_p0 == `Enable ) begin 
+                $write("        %d n19 recv %x \n", counter, n19_odata_p0); 
+                n19_recv = n19_recv + 1; 
+                stop     = counter + 200;
         end 
 end
 
@@ -633,6 +673,10 @@ always @ (posedge clk) begin
 	if ( noc.n13.ovalid_0 == `Enable ) $write("                %d n13(0 %d) go thru %x \n", counter, noc.n13.ovch_0, noc.n13.odata_0); 
 	if ( noc.n14.ovalid_0 == `Enable ) $write("                %d n14(0 %d) go thru %x \n", counter, noc.n14.ovch_0, noc.n14.odata_0); 
 	if ( noc.n15.ovalid_0 == `Enable ) $write("                %d n15(0 %d) go thru %x \n", counter, noc.n15.ovch_0, noc.n15.odata_0); 
+	if ( noc.n16.ovalid_0 == `Enable ) $write("                %d n16(0 %d) go thru %x \n", counter, noc.n16.ovch_0, noc.n16.odata_0); 
+	if ( noc.n17.ovalid_0 == `Enable ) $write("                %d n17(0 %d) go thru %x \n", counter, noc.n17.ovch_0, noc.n17.odata_0); 
+	if ( noc.n18.ovalid_0 == `Enable ) $write("                %d n18(0 %d) go thru %x \n", counter, noc.n18.ovch_0, noc.n18.odata_0); 
+	if ( noc.n19.ovalid_0 == `Enable ) $write("                %d n19(0 %d) go thru %x \n", counter, noc.n19.ovch_0, noc.n19.odata_0); 
 end 
 /* Port 1 */ 
 always @ (posedge clk) begin    
@@ -652,6 +696,10 @@ always @ (posedge clk) begin
 	if ( noc.n13.ovalid_1 == `Enable ) $write("                %d n13(1 %d) go thru %x \n", counter, noc.n13.ovch_1, noc.n13.odata_1); 
 	if ( noc.n14.ovalid_1 == `Enable ) $write("                %d n14(1 %d) go thru %x \n", counter, noc.n14.ovch_1, noc.n14.odata_1); 
 	if ( noc.n15.ovalid_1 == `Enable ) $write("                %d n15(1 %d) go thru %x \n", counter, noc.n15.ovch_1, noc.n15.odata_1); 
+	if ( noc.n16.ovalid_1 == `Enable ) $write("                %d n16(1 %d) go thru %x \n", counter, noc.n16.ovch_1, noc.n16.odata_1); 
+	if ( noc.n17.ovalid_1 == `Enable ) $write("                %d n17(1 %d) go thru %x \n", counter, noc.n17.ovch_1, noc.n17.odata_1); 
+	if ( noc.n18.ovalid_1 == `Enable ) $write("                %d n18(1 %d) go thru %x \n", counter, noc.n18.ovch_1, noc.n18.odata_1); 
+	if ( noc.n19.ovalid_1 == `Enable ) $write("                %d n19(1 %d) go thru %x \n", counter, noc.n19.ovch_1, noc.n19.odata_1); 
 end 
 /* Port 2 */ 
 always @ (posedge clk) begin    
@@ -671,6 +719,10 @@ always @ (posedge clk) begin
 	if ( noc.n13.ovalid_2 == `Enable ) $write("                %d n13(2 %d) go thru %x \n", counter, noc.n13.ovch_2, noc.n13.odata_2); 
 	if ( noc.n14.ovalid_2 == `Enable ) $write("                %d n14(2 %d) go thru %x \n", counter, noc.n14.ovch_2, noc.n14.odata_2); 
 	if ( noc.n15.ovalid_2 == `Enable ) $write("                %d n15(2 %d) go thru %x \n", counter, noc.n15.ovch_2, noc.n15.odata_2); 
+	if ( noc.n16.ovalid_2 == `Enable ) $write("                %d n16(2 %d) go thru %x \n", counter, noc.n16.ovch_2, noc.n16.odata_2); 
+	if ( noc.n17.ovalid_2 == `Enable ) $write("                %d n17(2 %d) go thru %x \n", counter, noc.n17.ovch_2, noc.n17.odata_2); 
+	if ( noc.n18.ovalid_2 == `Enable ) $write("                %d n18(2 %d) go thru %x \n", counter, noc.n18.ovch_2, noc.n18.odata_2); 
+	if ( noc.n19.ovalid_2 == `Enable ) $write("                %d n19(2 %d) go thru %x \n", counter, noc.n19.ovch_2, noc.n19.odata_2); 
 end 
 /* Port 3 */ 
 always @ (posedge clk) begin    
@@ -690,6 +742,10 @@ always @ (posedge clk) begin
 	if ( noc.n13.ovalid_3 == `Enable ) $write("                %d n13(3 %d) go thru %x \n", counter, noc.n13.ovch_3, noc.n13.odata_3); 
 	if ( noc.n14.ovalid_3 == `Enable ) $write("                %d n14(3 %d) go thru %x \n", counter, noc.n14.ovch_3, noc.n14.odata_3); 
 	if ( noc.n15.ovalid_3 == `Enable ) $write("                %d n15(3 %d) go thru %x \n", counter, noc.n15.ovch_3, noc.n15.odata_3); 
+	if ( noc.n16.ovalid_3 == `Enable ) $write("                %d n16(3 %d) go thru %x \n", counter, noc.n16.ovch_3, noc.n16.odata_3); 
+	if ( noc.n17.ovalid_3 == `Enable ) $write("                %d n17(3 %d) go thru %x \n", counter, noc.n17.ovch_3, noc.n17.odata_3); 
+	if ( noc.n18.ovalid_3 == `Enable ) $write("                %d n18(3 %d) go thru %x \n", counter, noc.n18.ovch_3, noc.n18.odata_3); 
+	if ( noc.n19.ovalid_3 == `Enable ) $write("                %d n19(3 %d) go thru %x \n", counter, noc.n19.ovch_3, noc.n19.odata_3); 
 end 
 
 initial begin                     
@@ -712,6 +768,10 @@ initial begin
         $sdf_annotate("router.sdf", noc_test.noc.n13, , "sdf.log", "MAXIMUM");
         $sdf_annotate("router.sdf", noc_test.noc.n14, , "sdf.log", "MAXIMUM");
         $sdf_annotate("router.sdf", noc_test.noc.n15, , "sdf.log", "MAXIMUM");
+        $sdf_annotate("router.sdf", noc_test.noc.n16, , "sdf.log", "MAXIMUM");
+        $sdf_annotate("router.sdf", noc_test.noc.n17, , "sdf.log", "MAXIMUM");
+        $sdf_annotate("router.sdf", noc_test.noc.n18, , "sdf.log", "MAXIMUM");
+        $sdf_annotate("router.sdf", noc_test.noc.n19, , "sdf.log", "MAXIMUM");
         `endif                    
 end                               
 
@@ -1081,6 +1141,10 @@ begin
         n13_idata_p0 <= `DATAW_P1'h0; n13_ivalid_p0 <= `Disable; n13_ivch_p0 <= `VCHW_P1'h0;
         n14_idata_p0 <= `DATAW_P1'h0; n14_ivalid_p0 <= `Disable; n14_ivch_p0 <= `VCHW_P1'h0;
         n15_idata_p0 <= `DATAW_P1'h0; n15_ivalid_p0 <= `Disable; n15_ivch_p0 <= `VCHW_P1'h0;
+        n16_idata_p0 <= `DATAW_P1'h0; n16_ivalid_p0 <= `Disable; n16_ivch_p0 <= `VCHW_P1'h0;
+        n17_idata_p0 <= `DATAW_P1'h0; n17_ivalid_p0 <= `Disable; n17_ivch_p0 <= `VCHW_P1'h0;
+        n18_idata_p0 <= `DATAW_P1'h0; n18_ivalid_p0 <= `Disable; n18_ivch_p0 <= `VCHW_P1'h0;
+        n19_idata_p0 <= `DATAW_P1'h0; n19_ivalid_p0 <= `Disable; n19_ivch_p0 <= `VCHW_P1'h0;
         #(STEP)                
         rst_    <= `Disable_;  
 
