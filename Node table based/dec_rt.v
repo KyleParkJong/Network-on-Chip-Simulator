@@ -13,7 +13,7 @@ parameter  MY_XPOS = 0;
 parameter  MY_YPOS = 0;
 localparam MY_POS  = MY_XPOS*4+MY_YPOS;
 
-input	[`UM:0]		um_type;
+input	    		um_type;
 input	[`UADDR:0]	addr0;
 input	[`MADDR:0]	addr1;
 

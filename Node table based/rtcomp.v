@@ -32,7 +32,7 @@ reg		[`VCHW:0]	ovch1;
 wire				fwdab_en0;
 reg					fwdab_en1;
 
-wire	[`UM:0]		um_type;
+wire				um_type;
 wire	[`UADDR:0]	addr0;
 wire	[`MADDR:0]	addr1;
 

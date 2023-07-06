@@ -720,7 +720,7 @@ task send_packet_u_0;
 input [10:0] dst; // binary_encoding
 input [31:0] vch;
 input [31:0] len; // packet length
-reg [`DATAW:0]  packet [0:`PCK_LEN];
+reg [`DATAW:0]  packet [0:63];
 integer id; 
 begin      
         n0_ivalid_p0 <= `Disable;   
@@ -806,7 +806,7 @@ task send_packet_u_1;
 input [10:0] dst; // binary_encoding
 input [31:0] vch;
 input [31:0] len; // packet length
-reg [`DATAW:0]  packet [0:`PCK_LEN];
+reg [`DATAW:0]  packet [0:63];
 integer id; 
 begin      
         n1_ivalid_p0 <= `Disable;   
@@ -892,7 +892,7 @@ task send_packet_u_2;
 input [10:0] dst; // binary_encoding
 input [31:0] vch;
 input [31:0] len; // packet length
-reg [`DATAW:0]  packet [0:`PCK_LEN];
+reg [`DATAW:0]  packet [0:63];
 integer id; 
 begin      
         n2_ivalid_p0 <= `Disable;   
