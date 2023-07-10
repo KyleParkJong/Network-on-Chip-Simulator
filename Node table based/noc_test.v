@@ -440,32 +440,8 @@ initial begin
         #(STEP);
     end
 
-    $write("*** Send multicast (src: 1 dst: 5,9,17 vch: 0 len: 9) *** \n");
-    send_packet_m_1 (56'b100000001000100000, 0, 9);
-end
-
-/* packet generator for n2 */
-initial begin
-    #(STEP / 2);
-    #(STEP * 10);
-    while (~ready) begin
-        #(STEP);
-    end
-
-    $write("*** Send multicast (src: 2 dst: 6,14,18 vch: 0 len: 9) *** \n");
-    send_packet_m_2 (56'b1000100000001000000, 0, 9);
-end
-
-/* packet generator for n4 */
-initial begin
-    #(STEP / 2);
-    #(STEP * 10);
-    while (~ready) begin
-        #(STEP);
-    end
-
-    $write("*** Send unicast (src: 4 dst: 7 vch: 0 len: 9) *** \n");
-    send_packet_u_4 (7, 0, 9);
+    $write("*** Send multicast (src: 1 dst: 6,9,14,19 vch: 0 len: 9) *** \n");
+    send_packet_m_1 (56'b10000100001001000000, 0, 9);
 end
 
 /* Send/recv event monitor */ 

@@ -75,7 +75,7 @@ relaunch_sim: Time (s): cpu = 00:00:01 ; elapsed = 00:00:28 . Memory (MB): peak 
 run all
 
 
-*** statistics (        241) *** 
+        *** statistics (        241) *** 
 n0_sent           0 	 n0_recv           0 
 n1_sent           0 	 n1_recv           0 
 n2_sent           9 	 n2_recv           0 

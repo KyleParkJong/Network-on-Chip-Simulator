@@ -52,7 +52,7 @@ wire              anyhold;
 
 
 // 자기 PORTID 에 해당되는 포트만 req 확인
-// One Hot Encoding : inject/서/북/동/남 ([4:0])       
+// One Hot Encoding : inject/서/남/동/북 ([4:0])       
 /* Request */
 assign  req[0]  = req_0 & (port_0 == PORTID); 
 assign  req[1]  = req_1 & (port_1 == PORTID); 
@@ -68,7 +68,9 @@ always @ (posedge clk) begin
         if (rst_ == `Enable_) 
                 last    <= `PORT_P1'b0; 
         else if (last != grt)       // 직전에 grant된 포트값 저장        
-                last    <= grt;             
+                last    <= grt;
+        else
+                last    <= last;     
 end 
 
 /* Grant */
