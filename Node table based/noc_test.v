@@ -432,7 +432,7 @@ initial begin
         $finish;                                 
 end                             
 
-/* packet generator for n1 */
+/* packet generator for n2 */
 initial begin
     #(STEP / 2);
     #(STEP * 10);
@@ -440,8 +440,20 @@ initial begin
         #(STEP);
     end
 
-    $write("*** Send multicast (src: 1 dst: 6,9,14,19 vch: 0 len: 9) *** \n");
-    send_packet_m_1 (56'b10000100001001000000, 0, 9);
+    $write("*** Send multicast (src: 2 dst: 7,11 vch: 0 len: 9) *** \n");
+    send_packet_m_2 (56'b100010000000, 0, 9);
+end
+
+/* packet generator for n6 */
+initial begin
+    #(STEP / 2);
+    #(STEP * 10);
+    while (~ready) begin
+        #(STEP);
+    end
+
+    $write("*** Send unicast (src: 5 dst: 7 vch: 0 len: 9) *** \n");
+    send_packet_u_5 (7, 0, 9);
 end
 
 /* Send/recv event monitor */ 
@@ -791,7 +803,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n0_ivalid_p0 <= `Disable;  
+        n0_idata_p0 <= `DATAW_P1'b0; n0_ivalid_p0 <= `Disable;  
 end             
 endtask 
 
@@ -834,7 +846,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n1_ivalid_p0 <= `Disable;  
+        n1_idata_p0 <= `DATAW_P1'b0; n1_ivalid_p0 <= `Disable;  
 end             
 endtask  
 
@@ -877,7 +889,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n2_ivalid_p0 <= `Disable;  
+        n2_idata_p0 <= `DATAW_P1'b0; n2_ivalid_p0 <= `Disable;  
 end             
 endtask
 
@@ -920,7 +932,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n0_ivalid_p0 <= `Disable;   
+        n0_idata_p0 <= `DATAW_P1'b0; n0_ivalid_p0 <= `Disable;   
 end             
 endtask  
 
@@ -963,7 +975,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n1_ivalid_p0 <= `Disable;   
+        n1_idata_p0 <= `DATAW_P1'b0; n1_ivalid_p0 <= `Disable;   
 end             
 endtask  
 
@@ -1006,7 +1018,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n2_ivalid_p0 <= `Disable;   
+        n2_idata_p0 <= `DATAW_P1'b0; n2_ivalid_p0 <= `Disable;   
 end             
 endtask  
 
@@ -1049,7 +1061,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n3_ivalid_p0 <= `Disable;   
+        n3_idata_p0 <= `DATAW_P1'b0; n3_ivalid_p0 <= `Disable;   
 end             
 endtask  
 
@@ -1092,7 +1104,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n4_ivalid_p0 <= `Disable;   
+        n4_idata_p0 <= `DATAW_P1'b0; n4_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1135,7 +1147,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n5_ivalid_p0 <= `Disable;   
+        n5_idata_p0 <= `DATAW_P1'b0; n5_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1178,7 +1190,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n6_ivalid_p0 <= `Disable;   
+        n6_idata_p0 <= `DATAW_P1'b0; n6_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1221,7 +1233,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n7_ivalid_p0 <= `Disable;   
+        n7_idata_p0 <= `DATAW_P1'b0; n7_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1264,7 +1276,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n8_ivalid_p0 <= `Disable;   
+        n8_idata_p0 <= `DATAW_P1'b0; n8_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1307,7 +1319,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n9_ivalid_p0 <= `Disable;   
+        n9_idata_p0 <= `DATAW_P1'b0; n9_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1350,7 +1362,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n10_ivalid_p0 <= `Disable;   
+        n10_idata_p0 <= `DATAW_P1'b0; n10_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1393,7 +1405,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n11_ivalid_p0 <= `Disable;   
+        n11_idata_p0 <= `DATAW_P1'b0; n11_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1436,7 +1448,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n12_ivalid_p0 <= `Disable;   
+        n12_idata_p0 <= `DATAW_P1'b0; n12_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1479,7 +1491,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n13_ivalid_p0 <= `Disable;   
+        n13_idata_p0 <= `DATAW_P1'b0; n13_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1522,7 +1534,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n14_ivalid_p0 <= `Disable;   
+        n14_idata_p0 <= `DATAW_P1'b0; n14_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1565,7 +1577,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n15_ivalid_p0 <= `Disable;   
+        n15_idata_p0 <= `DATAW_P1'b0; n15_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1608,7 +1620,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n16_ivalid_p0 <= `Disable;   
+        n16_idata_p0 <= `DATAW_P1'b0; n16_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1651,7 +1663,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n17_ivalid_p0 <= `Disable;   
+        n17_idata_p0 <= `DATAW_P1'b0; n17_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1694,7 +1706,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n18_ivalid_p0 <= `Disable;   
+        n18_idata_p0 <= `DATAW_P1'b0; n18_ivalid_p0 <= `Disable;   
 end             
 endtask
 
@@ -1737,7 +1749,7 @@ begin
                 end 
         end 
         #(STEP) 
-        n19_ivalid_p0 <= `Disable;   
+        n19_idata_p0 <= `DATAW_P1'b0; n19_ivalid_p0 <= `Disable;   
 end             
 endtask
 

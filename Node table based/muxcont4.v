@@ -92,7 +92,7 @@ assign  grt[3]  = anyhold ? hold[3] : grt0[3];
 assign  grt[4]  = anyhold ? hold[4] : grt0[4]; 
 
 /*                     
- * Arbiter             
+ * Arbiter              
  */                    
 arb a0 (               
         .req ( req  ), 
