@@ -55,8 +55,8 @@
 `define FIFO_P1         17 
 `define FIFOD           4 
 `define FIFOD_P1        5 
-`define PKTLEN          8 
-`define PKTLEN_P1       9       // message 당 최대 flit 
+`define PKTLEN          16 
+`define PKTLEN_P1       17       // Max flit per message 
 
 /* Port number (5-port) */        
 `define PORT            4         

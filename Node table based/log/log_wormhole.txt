@@ -1,0 +1,135 @@
+*** Send unicast (src: 0 dst: 6 vch: 0 len: 9) *** 
+*** Send unicast (src: 2 dst: 10 vch: 0 len: 15) *** 
+         13 n0 send 10060000000000000 
+         13 n2 send 100a0000000000008 
+         14 n0 send 000000000000b1000 
+         14 n2 send 000000000000b1000 
+         15 n0 send 000000000000b2000 
+         15 n2 send 000000000000b2000 
+         16 n0 send 000000000000b3000 
+         16 n2 send 000000000000b3000 
+         17 n0 send 000000000000b4000 
+         17 n2 send 000000000000b4000 
+                         17 n2(1 0) go thru 100a0000000000008 
+                         17 n0(2 0) go thru 10060000000000000 
+         18 n0 send 000000000000b5000 
+         18 n2 send 000000000000b5000 
+                         18 n2(1 0) go thru 000000000000b1000 
+                         18 n0(2 0) go thru 000000000000b1000 
+         19 n0 send 000000000000b6000 
+         19 n2 send 000000000000b6000 
+                         19 n2(1 0) go thru 000000000000b2000 
+                         19 n0(2 0) go thru 000000000000b2000 
+         20 n0 send 000000000000b7000 
+         20 n2 send 000000000000b7000 
+                         20 n2(1 0) go thru 000000000000b3000 
+                         20 n0(2 0) go thru 000000000000b3000 
+         21 n0 send 200000000000b8000 
+         21 n2 send 000000000000b8000 
+                         21 n2(1 0) go thru 000000000000b4000 
+                         21 n6(1 0) go thru 100a0000000000008 
+                         21 n0(2 0) go thru 000000000000b4000 
+                         21 n1(2 0) go thru 10060000000000000 
+         22 n2 send 000000000000b9000 
+                         22 n2(1 0) go thru 000000000000b5000 
+                         22 n6(1 0) go thru 000000000000b1000 
+                         22 n0(2 0) go thru 000000000000b5000 
+                         22 n1(2 0) go thru 000000000000b1000 
+         23 n2 send 000000000000ba000 
+                         23 n2(1 0) go thru 000000000000b6000 
+                         23 n6(1 0) go thru 000000000000b2000 
+                         23 n0(2 0) go thru 000000000000b6000 
+                         23 n1(2 0) go thru 000000000000b2000 
+         24 n2 send 000000000000bb000 
+                         24 n2(1 0) go thru 000000000000b7000 
+                         24 n6(1 0) go thru 000000000000b3000 
+                         24 n0(2 0) go thru 000000000000b7000 
+                         24 n1(2 0) go thru 000000000000b3000 
+         25 n2 send 000000000000bc000 
+                 25 n10 recv 100a0000000000008 
+                         25 n2(1 0) go thru 000000000000b8000 
+                         25 n6(1 0) go thru 000000000000b4000 
+                         25 n0(2 0) go thru 200000000000b8000 
+                         25 n1(2 0) go thru 000000000000b4000 
+         26 n2 send 000000000000bd000 
+                 26 n10 recv 000000000000b1000 
+                         26 n2(1 0) go thru 000000000000b9000 
+                         26 n6(1 0) go thru 000000000000b5000 
+                         26 n1(2 0) go thru 000000000000b5000 
+         27 n2 send 200000000000be000 
+                 27 n10 recv 000000000000b2000 
+                         27 n2(1 0) go thru 000000000000ba000 
+                         27 n6(1 0) go thru 000000000000b6000 
+                         27 n1(2 0) go thru 000000000000b6000 
+                 28 n10 recv 000000000000b3000 
+                         28 n2(1 0) go thru 000000000000bb000 
+                         28 n6(1 0) go thru 000000000000b7000 
+                         28 n1(2 0) go thru 000000000000b7000 
+                 29 n10 recv 000000000000b4000 
+                         29 n2(1 0) go thru 000000000000bc000 
+                         29 n6(1 0) go thru 000000000000b8000 
+                         29 n1(2 0) go thru 200000000000b8000 
+                 30 n10 recv 000000000000b5000 
+                         30 n2(1 0) go thru 000000000000bd000 
+                         30 n6(1 0) go thru 000000000000b9000 
+                 31 n10 recv 000000000000b6000 
+                         31 n2(1 0) go thru 200000000000be000 
+                         31 n6(1 0) go thru 000000000000ba000 
+                 32 n10 recv 000000000000b7000 
+                         32 n2(1 0) go thru 10060000000000000 
+                         32 n6(1 0) go thru 000000000000bb000 
+                 33 n10 recv 000000000000b8000 
+                         33 n2(1 0) go thru 000000000000b1000 
+                         33 n6(1 0) go thru 000000000000bc000 
+                 34 n10 recv 000000000000b9000 
+                         34 n2(1 0) go thru 000000000000b2000 
+                         34 n6(1 0) go thru 000000000000bd000 
+                 35 n10 recv 000000000000ba000 
+                         35 n2(1 0) go thru 000000000000b3000 
+                         35 n6(1 0) go thru 200000000000be000 
+                 36 n10 recv 000000000000bb000 
+                         36 n2(1 0) go thru 000000000000b4000 
+                 37 n10 recv 000000000000bc000 
+                         37 n2(1 0) go thru 000000000000b5000 
+                 38 n6 recv 10060000000000000 
+                 38 n10 recv 000000000000bd000 
+                         38 n2(1 0) go thru 000000000000b6000 
+                 39 n6 recv 000000000000b1000 
+                 39 n10 recv 200000000000be000 
+                         39 n2(1 0) go thru 000000000000b7000 
+                 40 n6 recv 000000000000b2000 
+                         40 n2(1 0) go thru 200000000000b8000 
+                 41 n6 recv 000000000000b3000 
+                 42 n6 recv 000000000000b4000 
+                 43 n6 recv 000000000000b5000 
+                 44 n6 recv 000000000000b6000 
+                 45 n6 recv 000000000000b7000 
+                 46 n6 recv 200000000000b8000 
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'noc_test_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:05 ; elapsed = 00:00:30 . Memory (MB): peak = 1165.758 ; gain = 13.215
+run all
+
+
+*** statistics (        246) *** 
+n0_sent           9 	 n0_recv           0 
+n1_sent           0 	 n1_recv           0 
+n2_sent          15 	 n2_recv           0 
+n3_sent           0 	 n3_recv           0 
+n4_sent           0 	 n4_recv           0 
+n5_sent           0 	 n5_recv           0 
+n6_sent           0 	 n6_recv           9 
+n7_sent           0 	 n7_recv           0 
+n8_sent           0 	 n8_recv           0 
+n9_sent           0 	 n9_recv           0 
+n10_sent           0 	 n10_recv          15 
+n11_sent           0 	 n11_recv           0 
+n12_sent           0 	 n12_recv           0 
+n13_sent           0 	 n13_recv           0 
+n14_sent           0 	 n14_recv           0 
+n15_sent           0 	 n15_recv           0 
+n16_sent           0 	 n16_recv           0 
+n17_sent           0 	 n17_recv           0 
+n18_sent           0 	 n18_recv           0 
+n19_sent           0 	 n19_recv           0 
+total_sent          24 	 total_recv          24 

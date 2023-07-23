@@ -5,7 +5,7 @@ module dec_rt (
 	addr1,
 	port,
 	addr1_rm,
-	fwdab_en
+	multab_en
 );
 
 /* Parameters */
@@ -19,7 +19,7 @@ input	[`MADDR:0]	addr1;
 
 output	[`PORTW:0]	port;
 output	reg [`MADDR:0]	addr1_rm;
-output	reg         	fwdab_en;
+output	reg         	multab_en;
 
 reg	    [2:0]	        dst_xpos;   // 3bits
 reg	    [1:0]	        dst_ypos;   // 2bits
@@ -32,26 +32,25 @@ integer continue;
 always @ (*) begin
     if (um_type == 1) begin
         if (addr1[MY_POS] == 1) begin	// Absorb
+            multab_en = 1;
             addr1_rm = addr1;
             addr1_rm[MY_POS] = 0;
             continue = 0;
             for(i = 4; ((i < 20) && (continue == 0)); i = i + 4) begin
                 if((addr1[MY_POS+i] == 1)) begin    //  Forward & Absorb
-                    fwdab_en = 1;
                     next_pos = MY_POS + i;
                     dst_xpos = next_pos[`NODEW_P1:2];
                     dst_ypos = next_pos[1:0];
                     continue = 1;
                 end
                 else begin
-                    fwdab_en = 0;
                     dst_xpos = MY_XPOS;
                     dst_ypos = MY_YPOS;
                 end
             end
         end
         else begin		// Forward
-            fwdab_en = 0;
+            multab_en = 0;
             continue = 0;
             addr1_rm = addr1;
             for(i = 1; (( i < 20) && (continue==0)); i = i+1) begin
@@ -71,7 +70,7 @@ always @ (*) begin
 
 /* Binary encoder (Unicast) */
 	else begin      
-        fwdab_en = 0;
+        multab_en = 0;
         addr1_rm = 0;
         dst_xpos = addr0[`NODEW_P1:2];
         dst_ypos = addr0[1:0];

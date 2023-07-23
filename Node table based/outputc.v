@@ -82,7 +82,7 @@ always @ (posedge clk) begin
                 olck[0] <= `Disable;             
         else if ( (ivalid && ivch == 0) || (ovalid && ovch == 0) )
                 olck[0] <= `Enable;              
-        else if (olck[0] && ~ilck[0])           
+        else if (olck[0] && ~ilck[0])         
                 olck[0] <= `Disable;             
 end                                               
 
