@@ -6,7 +6,7 @@ module cb (
         port_0,   
         req_0,    
         grt_0,
-        fwdab_0,    
+        multab_0,    
 
         idata_1,  
         ivalid_1, 
@@ -14,7 +14,7 @@ module cb (
         port_1,   
         req_1,    
         grt_1,
-        fwdab_1,    
+        multab_1,    
 
         idata_2,  
         ivalid_2, 
@@ -22,7 +22,7 @@ module cb (
         port_2,   
         req_2,    
         grt_2,
-        fwdab_2,    
+        multab_2,    
 
         idata_3,  
         ivalid_3, 
@@ -30,7 +30,7 @@ module cb (
         port_3,   
         req_3,    
         grt_3,
-        fwdab_3,    
+        multab_3,    
 
         idata_4,  
         ivalid_4, 
@@ -38,7 +38,7 @@ module cb (
         port_4,   
         req_4,    
         grt_4,
-        fwdab_4,    
+        multab_4,    
 
         odata_0,  
         ovalid_0, 
@@ -70,15 +70,7 @@ input   [`VCHW:0]       ivch_0;
 input   [`PORTW:0]      port_0;   
 input                   req_0;
 output  [`PORT:0]       grt_0;    
-<<<<<<< HEAD
-<<<<<<< HEAD
 input   [`DSTATUS:0]    multab_0;    
-=======
-input                   fwdab_0;    
->>>>>>> parent of 66a1952 (7.20 version)
-=======
-input                   multab_0;    
->>>>>>> parent of 558ce32 (7.25 version)
 
 
 input   [`DATAW:0]      idata_1;  
@@ -87,15 +79,7 @@ input   [`VCHW:0]       ivch_1;
 input   [`PORTW:0]      port_1;   
 input                   req_1;
 output  [`PORT:0]       grt_1;  
-<<<<<<< HEAD
-<<<<<<< HEAD
 input   [`DSTATUS:0]    multab_1;      
-=======
-input                   fwdab_1;      
->>>>>>> parent of 66a1952 (7.20 version)
-=======
-input                   multab_1;      
->>>>>>> parent of 558ce32 (7.25 version)
 
 input   [`DATAW:0]      idata_2;  
 input                   ivalid_2; 
@@ -103,15 +87,7 @@ input   [`VCHW:0]       ivch_2;
 input   [`PORTW:0]      port_2;   
 input                   req_2;
 output  [`PORT:0]       grt_2;  
-<<<<<<< HEAD
-<<<<<<< HEAD
 input   [`DSTATUS:0]    multab_2;      
-=======
-input                   fwdab_2;      
->>>>>>> parent of 66a1952 (7.20 version)
-=======
-input                   multab_2;      
->>>>>>> parent of 558ce32 (7.25 version)
 
 input   [`DATAW:0]      idata_3;  
 input                   ivalid_3; 
@@ -119,15 +95,7 @@ input   [`VCHW:0]       ivch_3;
 input   [`PORTW:0]      port_3;   
 input                   req_3;
 output  [`PORT:0]       grt_3;  
-<<<<<<< HEAD
-<<<<<<< HEAD
 input   [`DSTATUS:0]    multab_3;      
-=======
-input                   fwdab_3;      
->>>>>>> parent of 66a1952 (7.20 version)
-=======
-input                   multab_3;      
->>>>>>> parent of 558ce32 (7.25 version)
 
 input   [`DATAW:0]      idata_4;  
 input                   ivalid_4; 
@@ -135,15 +103,7 @@ input   [`VCHW:0]       ivch_4;
 input   [`PORTW:0]      port_4;   
 input                   req_4;  
 output  [`PORT:0]       grt_4;  
-<<<<<<< HEAD
-<<<<<<< HEAD
 input   [`DSTATUS:0]    multab_4;    
-=======
-input                   fwdab_4;    
->>>>>>> parent of 66a1952 (7.20 version)
-=======
-input                   multab_4;    
->>>>>>> parent of 558ce32 (7.25 version)
 
 output  [`DATAW:0]      odata_0;  
 output                  ovalid_0; 
@@ -177,7 +137,8 @@ wire    [`PORT:0]     cb_grt_0;
 wire    [`PORT:0]     cb_grt_1; 
 wire    [`PORT:0]     cb_grt_2; 
 wire    [`PORT:0]     cb_grt_3; 
-wire    [`PORT:0]     cb_grt_4; 
+wire    [`PORT:0]     cb_grt_4;
+wire    [`PORT:0]     multab_ct;  // Multicast & Absorb contention from muxcont_4
 
 muxcont #( 0 ) muxcont_0 ( 
         .port_0   ( port_0   ), 
@@ -195,8 +156,16 @@ muxcont #( 0 ) muxcont_0 (
         .port_4   ( port_4   ), 
         .req_4    ( req_4    ),
 
+        .multab_0 ( multab_0 ),
+        .multab_1 ( multab_1 ),
+        .multab_2 ( multab_2 ),
+        .multab_3 ( multab_3 ),
+        .multab_4 ( multab_4 ),
+
         .sel ( cb_sel_0 ), 
-        .grt ( cb_grt_0 ), 
+        .grt ( cb_grt_0 ),
+
+        .multab_ct ( multab_ct ),  // input from muxcont_4
 
         .clk ( clk  ), 
         .rst_( rst_ ) 
@@ -218,8 +187,16 @@ muxcont #( 1 ) muxcont_1 (
         .port_4   ( port_4   ), 
         .req_4    ( req_4    ),
 
+        .multab_0 ( multab_0 ),
+        .multab_1 ( multab_1 ),
+        .multab_2 ( multab_2 ),
+        .multab_3 ( multab_3 ),
+        .multab_4 ( multab_4 ),
+
         .sel ( cb_sel_1 ), 
-        .grt ( cb_grt_1 ), 
+        .grt ( cb_grt_1 ),
+
+        .multab_ct ( multab_ct ), 
 
         .clk ( clk  ), 
         .rst_( rst_ ) 
@@ -241,8 +218,16 @@ muxcont #( 2 ) muxcont_2 (
         .port_4   ( port_4   ), 
         .req_4    ( req_4    ),
 
+        .multab_0 ( multab_0 ),
+        .multab_1 ( multab_1 ),
+        .multab_2 ( multab_2 ),
+        .multab_3 ( multab_3 ),
+        .multab_4 ( multab_4 ),
+
         .sel ( cb_sel_2 ), 
-        .grt ( cb_grt_2 ), 
+        .grt ( cb_grt_2 ),
+
+        .multab_ct ( multab_ct ), 
 
         .clk ( clk  ), 
         .rst_( rst_ ) 
@@ -264,8 +249,16 @@ muxcont #( 3 ) muxcont_3 (
         .port_4   ( port_4   ), 
         .req_4    ( req_4    ),
 
+        .multab_0 ( multab_0 ),
+        .multab_1 ( multab_1 ),
+        .multab_2 ( multab_2 ),
+        .multab_3 ( multab_3 ),
+        .multab_4 ( multab_4 ),
+
         .sel ( cb_sel_3 ), 
-        .grt ( cb_grt_3 ), 
+        .grt ( cb_grt_3 ),
+
+        .multab_ct ( multab_ct ), 
 
         .clk ( clk  ), 
         .rst_( rst_ ) 
@@ -287,14 +280,16 @@ muxcont4 #( 4 ) muxcont_4 (
         .port_4   ( port_4   ), 
         .req_4    ( req_4    ),
 
-        .fwdab_0 ( fwdab_0 ),
-        .fwdab_1 ( fwdab_1 ),
-        .fwdab_2 ( fwdab_2 ),
-        .fwdab_3 ( fwdab_3 ),
-        .fwdab_4 ( fwdab_4 ), 
+        .multab_0 ( multab_0 ),
+        .multab_1 ( multab_1 ),
+        .multab_2 ( multab_2 ),
+        .multab_3 ( multab_3 ),
+        .multab_4 ( multab_4 ), 
 
         .sel ( cb_sel_4 ), 
         .grt ( cb_grt_4 ), 
+
+        .multab_ct ( multab_ct ),  // output
 
         .clk ( clk  ), 
         .rst_( rst_ ) 

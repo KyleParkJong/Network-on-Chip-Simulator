@@ -21,7 +21,7 @@ module vc (
         grt_3, 
         grt_4,
 
-        fwdab_en, 
+        multab_en, 
 
         req,  
         port, 
@@ -55,15 +55,7 @@ input                   grt_2;
 input                   grt_3; 
 input                   grt_4; 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 input   [`DSTATUS:0]    multab_en;
-=======
-input   [`FWDAB:0]     fwdab_en;
->>>>>>> parent of 66a1952 (7.20 version)
-=======
-input                   multab_en;
->>>>>>> parent of 558ce32 (7.25 version)
 
 output                  req;  
 input   [`PORTW:0]      port; 
@@ -74,7 +66,7 @@ input   clk, rst_;
 
 reg     [1:0]           state;
 wire    [`TYPEW:0]      btype;  //2bit
-reg                     req;     /* Request signal */
+reg                     req0;     /* Request signal */
 wire                    ilck;    /* 1: Next VC is locked by others */
 wire                    grt;	 /* 1: Output channel is allocated */
 wire                    irdy;	 /* 1: Next VC can receive a flit  */ 
@@ -95,29 +87,16 @@ assign  btype   = bdata[`TYPE_MSB:`TYPE_LSB];
 
 /*  
  * Packet-level arbitration 
- * ilck from outputc.v, 
  */ 
 assign  ilck    = ( 
                    ((port == 0) && ilck_0[ovch]) || 
                    ((port == 1) && ilck_1[ovch]) || 
                    ((port == 2) && ilck_2[ovch]) || 
                    ((port == 3) && ilck_3[ovch]) || 
-<<<<<<< HEAD
-<<<<<<< HEAD
                    (((port == 4) || (multab_en == `MULTABS)) && ilck_4[ovch]) ); 
-=======
-                   ((port == 4) && ilck_4[ovch]) ||
-                   (fwdab_en && ilck_4[ovch]) ); 
->>>>>>> parent of 66a1952 (7.20 version)
-=======
-                   ((port == 4) && ilck_4[ovch]) ||
-                   (multab_en && ilck_4[ovch]) ); 
->>>>>>> parent of 558ce32 (7.25 version)
 
 /*  
  * Flit-level transmission control
- * grt - from cb.v, ouputchannel allocation
- * irdy - VC lock? from outputc.v
  */ 
 assign  grt     = ( 
                    ((port == 0) && grt_0) || 
@@ -142,55 +121,51 @@ always @ (posedge clk) begin
 	if (rst_ == `Enable_) begin
 		state	<= `RC_STAGE;
 		send	<= `Disable;
-		req	<= `Disable;
+		req0	<= `Disable;
 	end else begin
 		case (state)
 
-		/*
-		 * State 1 : Routing computation
-		 */
+		/* State 1 : Routing computation */
 		`RC_STAGE: begin
 			if (btype == `TYPE_HEAD ||
 			    btype == `TYPE_HEADTAIL) begin
 				state	<= `VSA_STAGE;
 				send	<= `Disable;
-				req	<= `Enable;
+				req0	<= `Enable;
 			end
 		end
 
-                /*
-                 * State 2 : Virtual channel / switch allocation
-                 */
+                /* State 2 : Virtual channel / switch allocation */
                 `VSA_STAGE: begin
 			if (ilck == `Enable) begin
                         	/* Switch is locked (unable to start 
 				   the arbitration) */
-				req     <= `Disable;
-			end if (grt == `Disable) begin
+				req0     <= `Disable;
+                        end if (grt == `Disable) begin
                         	/* Switch is not locked but it is not 
 				   allocated */
-				req     <= `Enable;
+				req0     <= `Enable;
 			end if (irdy == `Enable && grt == `Enable) begin
                         	/* Switch is allocated and it is free!  */
                                 state   <= `ST_STAGE;
 				send	<= `Enable;
-				req     <= `Enable;
+				req0     <= `Enable;
 			end
                 end
 
-                /*
-                 * State 3 : Switch Traversal,
-                 */
+                /* State 3 : Switch Traversal */
 		`ST_STAGE: begin
 			if (btype == `TYPE_HEADTAIL || 
 			    btype == `TYPE_TAIL) begin
 				state	<= `RC_STAGE;
 				send	<= `Disable;
-				req	<= `Disable;
+				req0	<= `Disable;
 			end
 		end
 		endcase
 	end
 end
+
+assign req = (btype == `TYPE_TAIL) ? `Disable : req0;
 
 endmodule

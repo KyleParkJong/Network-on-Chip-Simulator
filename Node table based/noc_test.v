@@ -432,6 +432,18 @@ initial begin
         $finish;                                 
 end                             
 
+/* packet generator for n1 */
+initial begin
+    #(STEP / 2);
+    #(STEP * 10);
+    while (~ready) begin
+        #(STEP);
+    end
+
+    $write("*** Send multicast (src: 1 dst: 5,9,13,17 vch: 0 len: 9) *** \n");
+    send_packet_m_1 (56'b100010001000100000, 0, 9);
+end
+
 /* packet generator for n2 */
 initial begin
     #(STEP / 2);
@@ -440,11 +452,11 @@ initial begin
         #(STEP);
     end
 
-    $write("*** Send multicast (src: 2 dst: 7,11 vch: 0 len: 9) *** \n");
-    send_packet_m_2 (56'b100010000000, 0, 9);
+    $write("*** Send multicast (src: 2 dst: 7,11,15,19 vch: 0 len: 9) *** \n");
+    send_packet_m_2 (56'b10001000100010000000, 0, 9);
 end
 
-/* packet generator for n6 */
+/* packet generator for n12 */
 initial begin
     #(STEP / 2);
     #(STEP * 10);
@@ -452,8 +464,20 @@ initial begin
         #(STEP);
     end
 
-    $write("*** Send unicast (src: 5 dst: 7 vch: 0 len: 9) *** \n");
-    send_packet_u_5 (7, 0, 9);
+    $write("*** Send unicast (src: 12 dst: 13 vch: 0 len: 15) *** \n");
+    send_packet_u_12 (13, 0, 15);
+end
+
+/* packet generator for n16 */
+initial begin
+    #(STEP / 2);
+    #(STEP * 10);
+    while (~ready) begin
+        #(STEP);
+    end
+
+    $write("*** Send unicast (src: 16 dst: 19 vch: 0 len: 15) *** \n");
+    send_packet_u_16 (19, 0, 15);
 end
 
 /* Send/recv event monitor */ 
@@ -890,6 +914,49 @@ begin
         end 
         #(STEP) 
         n2_idata_p0 <= `DATAW_P1'b0; n2_ivalid_p0 <= `Disable;  
+end             
+endtask
+
+/* send_packet_m_(num) (dst, vch, len): send a packet from src to dst (Multicast) */
+task send_packet_m_4;
+input [55:0] dst; //one-hot encoding
+input [31:0] vch;
+input [31:0] len; 
+reg [`DATAW:0] packet [0:63]; //64bit data & 2bit type
+integer id;
+begin
+        n4_ivalid_p0 <= `Disable;
+        for (id = 0; id < len; id = id+1)
+                packet[id] <= 0;
+        #(STEP)
+        if (len == 1) // Header
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
+        else 
+                packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
+        packet[0][`UM_TYPE] <= 1; 
+        packet[0][`MDST_MSB:`MDST_LSB] <= dst;    /* Dest ID - onehot encoding (56-bit) (62~7)*/
+        packet[0][`MSRC_MSB:`MSRC_LSB] <= 4;     /* Source ID (5-bit) (2~6)*/
+        packet[0][`MVCH_MSB:`MVCH_LSB] <= vch;    /* Vch ID (2-bit)    (0~1)*/
+        for ( id = 1; id < len; id = id + 1 ) begin //body,tail bit
+                if ( id == len - 1 )
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
+                else 
+                        packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_DATA;
+                packet[id][15:12] <= id;
+                packet[id][31:16] <= counter;	/* Data (64-bit)*/ 
+        end
+        id = 0;                                 
+        while ( id < len ) begin
+                #(STEP)                         
+                /* Packet level flow control */
+                if ( (id == 0 && n4_ordy_p0[vch]) || id > 0 ) begin 
+                        n4_idata_p0 <= packet[id]; n4_ivalid_p0 <= `Enable; n4_ivch_p0 <= vch; id = id + 1; 
+                end else begin    
+                        n4_idata_p0 <= `DATAW_P1'b0; n4_ivalid_p0 <= `Disable;  
+                end 
+        end 
+        #(STEP) 
+        n4_idata_p0 <= `DATAW_P1'b0; n4_ivalid_p0 <= `Disable;  
 end             
 endtask
 
