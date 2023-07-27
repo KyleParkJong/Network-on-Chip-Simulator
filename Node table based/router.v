@@ -174,11 +174,19 @@ wire            ic_req_3;
 wire            ic_req_4; 
 
 /* Wires form input to corssbar*/
+<<<<<<< HEAD
 wire [`DSTATUS:0] multab_0;
 wire [`DSTATUS:0] multab_1;
 wire [`DSTATUS:0] multab_2;
 wire [`DSTATUS:0] multab_3;
 wire [`DSTATUS:0] multab_4;
+=======
+wire            fwdab_0;
+wire            fwdab_1;
+wire            fwdab_2;
+wire            fwdab_3;
+wire            fwdab_4;
+>>>>>>> parent of 66a1952 (7.20 version)
 
 /* 
  * Wires from crossbar (cb_) 
@@ -258,7 +266,7 @@ inputc #( ROUTERID, 0, MY_XPOS, MY_YPOS ) ic_0 (
 
        .port  ( ic_port_0   ), 
        .req   ( ic_req_0    ),
-       .multab_en (multab_0), 
+       .fwdab_en (fwdab_0), 
 
        .clk ( clk  ),          
        .rst_( rst_ )           
@@ -295,7 +303,7 @@ inputc #( ROUTERID, 1, MY_XPOS, MY_YPOS ) ic_1 (
 
        .port  ( ic_port_1   ), 
        .req   ( ic_req_1    ),
-       .multab_en (multab_1), 
+       .fwdab_en (fwdab_1), 
 
        .clk ( clk  ),          
        .rst_( rst_ )           
@@ -332,7 +340,7 @@ inputc #( ROUTERID, 2, MY_XPOS, MY_YPOS ) ic_2 (
 
        .port  ( ic_port_2   ), 
        .req   ( ic_req_2    ),
-       .multab_en (multab_2),  
+       .fwdab_en (fwdab_2),  
 
        .clk ( clk  ),          
        .rst_( rst_ )           
@@ -369,7 +377,7 @@ inputc #( ROUTERID, 3, MY_XPOS, MY_YPOS ) ic_3 (
 
        .port  ( ic_port_3   ), 
        .req   ( ic_req_3    ), 
-       .multab_en (multab_3), 
+       .fwdab_en (fwdab_3), 
 
        .clk ( clk  ),          
        .rst_( rst_ )           
@@ -406,7 +414,7 @@ inputc #( ROUTERID, 4, MY_XPOS, MY_YPOS ) ic_4 (
 
        .port  ( ic_port_4   ), 
        .req   ( ic_req_4    ),
-       .multab_en (multab_4),  
+       .fwdab_en (fwdab_4),  
 
        .clk ( clk  ),          
        .rst_( rst_ )           
@@ -415,7 +423,7 @@ inputc #( ROUTERID, 4, MY_XPOS, MY_YPOS ) ic_4 (
 
 /* 
  * Crossbar switch 
- * multab_en signal input(0607)
+ * fwdab_en signal input(0607)
  */ 
 cb cb ( 
         .idata_0 ( ic_odata_0  ), 
@@ -424,7 +432,7 @@ cb cb (
         .port_0  ( ic_port_0   ), 
         .req_0   ( ic_req_0    ), 
         .grt_0   ( cb_grt_0    ),
-        .multab_0 (multab_0), 
+        .fwdab_0 (fwdab_0), 
 
         .idata_1 ( ic_odata_1  ), 
         .ivalid_1( ic_ovalid_1 ), 
@@ -432,7 +440,7 @@ cb cb (
         .port_1  ( ic_port_1   ), 
         .req_1   ( ic_req_1    ), 
         .grt_1   ( cb_grt_1    ),
-        .multab_1 (multab_1), 
+        .fwdab_1 (fwdab_1), 
 
         .idata_2 ( ic_odata_2  ), 
         .ivalid_2( ic_ovalid_2 ), 
@@ -440,7 +448,7 @@ cb cb (
         .port_2  ( ic_port_2   ), 
         .req_2   ( ic_req_2    ), 
         .grt_2   ( cb_grt_2    ), 
-        .multab_2 (multab_2),
+        .fwdab_2 (fwdab_2),
 
         .idata_3 ( ic_odata_3  ), 
         .ivalid_3( ic_ovalid_3 ), 
@@ -448,7 +456,7 @@ cb cb (
         .port_3  ( ic_port_3   ), 
         .req_3   ( ic_req_3    ), 
         .grt_3   ( cb_grt_3    ), 
-        .multab_3 (multab_3),
+        .fwdab_3 (fwdab_3),
 
         .idata_4 ( ic_odata_4  ), 
         .ivalid_4( ic_ovalid_4 ), 
@@ -456,7 +464,7 @@ cb cb (
         .port_4  ( ic_port_4   ), 
         .req_4   ( ic_req_4    ), 
         .grt_4   ( cb_grt_4    ), 
-        .multab_4 (multab_4),
+        .fwdab_4 (fwdab_4),
 
         .odata_0 ( cb_odata_0  ), 
         .ovalid_0( cb_ovalid_0 ), 

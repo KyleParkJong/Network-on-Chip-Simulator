@@ -5,7 +5,7 @@ module dec_rt (
 	addr1,
 	port,
 	addr1_rm,
-	multab_en
+	fwdab_en
 );
 
 /* Parameters */
@@ -17,9 +17,15 @@ input	    		um_type;
 input	[`UADDR:0]	addr0;
 input	[`MADDR:0]	addr1;
 
+<<<<<<< HEAD
 output	    [`PORTW:0]	 port;
 output	reg [`MADDR:0]	 addr1_rm;
 output	reg [`DSTATUS:0] multab_en;     // 2bits
+=======
+output	[`PORTW:0]	port;
+output	reg [`MADDR:0]	addr1_rm;
+output	reg         	fwdab_en;
+>>>>>>> parent of 66a1952 (7.20 version)
 
 reg	    [2:0]	        dst_xpos;       // 3bits
 reg	    [1:0]	        dst_ypos;       // 2bits
@@ -31,26 +37,41 @@ integer continue;
 /* One-Hot encoding decoder */
 always @ (*) begin
     if (um_type == 1) begin
+<<<<<<< HEAD
         if (addr1[MY_POS] == 1) begin	// Multicast & Absorb
             multab_en = `MULTABS;
+=======
+        if (addr1[MY_POS] == 1) begin	// Absorb
+>>>>>>> parent of 66a1952 (7.20 version)
             addr1_rm = addr1;
             addr1_rm[MY_POS] = 0;
             continue = 0;
             for(i = 4; ((i < 20) && (continue == 0)); i = i + 4) begin
+<<<<<<< HEAD
                 if((addr1[MY_POS+i] == 1) && (MY_POS+i < 20)) begin    // Multicast & Absorb & Forward
+=======
+                if((addr1[MY_POS+i] == 1)) begin    //  Forward & Absorb
+                    fwdab_en = 1;
+>>>>>>> parent of 66a1952 (7.20 version)
                     next_pos = MY_POS + i;
                     dst_xpos = next_pos[`NODEW_P1:2];
                     dst_ypos = next_pos[1:0];
                     continue = 1;
                 end
                 else begin
+                    fwdab_en = 0;
                     dst_xpos = MY_XPOS;
                     dst_ypos = MY_YPOS;
                 end
             end
         end
+<<<<<<< HEAD
         else begin	// Multicast & Forward
             multab_en = `MULTFWD;       
+=======
+        else begin		// Forward
+            fwdab_en = 0;
+>>>>>>> parent of 66a1952 (7.20 version)
             continue = 0;
             addr1_rm = addr1;
             for(i = 1; (( i < 20) && (continue==0)); i = i+1) begin
@@ -70,7 +91,11 @@ always @ (*) begin
 
 /* Binary encoder (Unicast) */
 	else begin      
+<<<<<<< HEAD
         multab_en = `UNICAST;
+=======
+        fwdab_en = 0;
+>>>>>>> parent of 66a1952 (7.20 version)
         addr1_rm = 0;
         dst_xpos = addr0[`NODEW_P1:2];
         dst_ypos = addr0[1:0];

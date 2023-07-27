@@ -30,7 +30,7 @@ module inputc (
 
         port,  
         req,   
-        multab_en,
+        fwdab_en,
 
         clk, 
         rst_ 
@@ -71,7 +71,11 @@ input                   grt_4;
 
 output  [`PORTW:0]      port;   
 output                  req;    
+<<<<<<< HEAD
 output  [`DSTATUS:0]    multab_en;
+=======
+output  [`VCH:0]        fwdab_en;
+>>>>>>> parent of 66a1952 (7.20 version)
 
 input   clk, rst_;              
 
@@ -142,7 +146,7 @@ vc #( ROUTERID, PCHID, 0 ) vc_0 (
        .grt_3 ( vcsel[0] ? grt_3 : `Disable ), 
        .grt_4 ( vcsel[0] ? grt_4 : `Disable ),
 
-       .multab_en( multab_en ),
+       .fwdab_en( fwdab_en ),
 
        .req   ( req0    ),
        .port  ( port0   ),
@@ -174,7 +178,7 @@ rtcomp #( MY_XPOS, MY_YPOS ) rc0 (
         .port   ( port0  ),
         .ovch   ( ovch0  ),
         .addr1_rm (addr1_rm),
-        .multab_en( multab_en ),
+        .fwdab_en( fwdab_en ),
         .clk    ( clk  ),
         .rst_   ( rst_ ) 
 );

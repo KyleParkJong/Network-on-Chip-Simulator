@@ -15,13 +15,11 @@ module muxcont4 (
         port_4,   
         req_4,
 
-        multab_0,
-        multab_1,
-        multab_2,
-        multab_3,
-        multab_4,
-
-        multab_ct,    
+        fwdab_0,
+        fwdab_1,
+        fwdab_2,
+        fwdab_3,
+        fwdab_4,    
 
         sel, 
         grt, 
@@ -47,15 +45,24 @@ input             req_3;
 input  [`PORTW:0] port_4;   
 input             req_4; 
 
+<<<<<<< HEAD
 input  [`DSTATUS:0] multab_0;
 input  [`DSTATUS:0] multab_1;
 input  [`DSTATUS:0] multab_2;
 input  [`DSTATUS:0] multab_3;
 input  [`DSTATUS:0] multab_4;
+=======
+// muxcont_4에서 inputc0~4에서 들어오는 fwdab 신호 종합
+input             fwdab_0;
+input             fwdab_1;
+input             fwdab_2;
+input             fwdab_3;
+input             fwdab_4;
+>>>>>>> parent of 66a1952 (7.20 version)
 
+//out
 output [`PORT:0]  sel; 
-output [`PORT:0]  grt;
-output [`PORT:0]  multab_ct;
+output [`PORT:0]  grt; 
 
 input             clk, rst_; 
 
@@ -113,11 +120,10 @@ assign  multab_ct[4] = ((multab_4 == `MULTABS) & req_4) && (grt[4] == 0);
  * Arbiter              
  */                    
 arb a0 (               
-        .req       ( req  ),          // input
-        .grt       ( grt0 ),          // output
-        .multab_ct ( `PORT'b0 ),
+        .req ( req  ), 
+        .grt ( grt0 ),
         .clk ( clk  ), 
-        .rst_( rst_ )
-);                    
+        .rst_( rst_ )  
+);                     
 
 endmodule

@@ -56,7 +56,11 @@
 `define FIFOD           4 
 `define FIFOD_P1        5 
 `define PKTLEN          8 
+<<<<<<< HEAD
 `define PKTLEN_P1       9       // Max flit per message 
+=======
+`define PKTLEN_P1       9       // message 당 최대 flit 
+>>>>>>> parent of 66a1952 (7.20 version)
 
 /* Port number (5-port) */        
 `define PORT            4         
