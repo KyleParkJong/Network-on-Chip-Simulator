@@ -16,7 +16,13 @@ module muxcont (
         req_4,    
 
         sel, 
-        grt, 
+        grt,
+
+        multab_0,
+        multab_1,
+        multab_2,
+        multab_3,
+        multab_4, 
 
         multab_ct,        
 
@@ -40,6 +46,12 @@ input             req_3;
 input  [`PORTW:0] port_4;   
 input             req_4;    
 
+input  [`DSTATUS:0] multab_0;
+input  [`DSTATUS:0] multab_1;
+input  [`DSTATUS:0] multab_2;
+input  [`DSTATUS:0] multab_3;
+input  [`DSTATUS:0] multab_4;
+
 output [`PORT:0]  sel;          
 output [`PORT:0]  grt;          
 
@@ -52,13 +64,22 @@ wire   [`PORT:0]  req;
 wire   [`PORT:0]  grt0; 
 wire   [`PORT:0]  hold; 
 wire              anyhold;
+wire              multab_en;
+
+assign multab_en = ((multab_0[1]) |          // Multicast check
+                    (multab_1[1]) |
+                    (multab_2[1]) |
+                    (multab_3[1]) |
+                    (multab_4[1]) );
    
-/* Request */
-assign  req[0]  = req_0 & (port_0 == PORTID); 
-assign  req[1]  = req_1 & (port_1 == PORTID); 
-assign  req[2]  = req_2 & (port_2 == PORTID); 
-assign  req[3]  = req_3 & (port_3 == PORTID); 
-assign  req[4]  = req_4 & (port_4 == PORTID); 
+/* Request logic 
+ * : Multicast 1st priority 
+ */
+assign  req[0]  = multab_en ? (multab_0[1] & req_0 & (port_0 == PORTID)) : (req_0 & (port_0 == PORTID)); 
+assign  req[1]  = multab_en ? (multab_1[1] & req_1 & (port_1 == PORTID)) : (req_1 & (port_1 == PORTID)); 
+assign  req[2]  = multab_en ? (multab_2[1] & req_2 & (port_2 == PORTID)) : (req_2 & (port_2 == PORTID)); 
+assign  req[3]  = multab_en ? (multab_3[1] & req_3 & (port_3 == PORTID)) : (req_3 & (port_3 == PORTID)); 
+assign  req[4]  = multab_en ? (multab_4[1] & req_4 & (port_4 == PORTID)) : (req_4 & (port_4 == PORTID));
 
 assign  hold    = last & req; 
 assign  anyhold = |hold;      

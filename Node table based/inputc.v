@@ -71,7 +71,7 @@ input                   grt_4;
 
 output  [`PORTW:0]      port;   
 output                  req;    
-output  [`VCH:0]        multab_en;
+output  [`DSTATUS:0]    multab_en;
 
 input   clk, rst_;              
 

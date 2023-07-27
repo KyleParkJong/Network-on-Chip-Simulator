@@ -55,7 +55,7 @@ input                   grt_2;
 input                   grt_3; 
 input                   grt_4; 
 
-input                   multab_en;
+input   [`DSTATUS:0]    multab_en;
 
 output                  req;  
 input   [`PORTW:0]      port; 
@@ -93,8 +93,7 @@ assign  ilck    = (
                    ((port == 1) && ilck_1[ovch]) || 
                    ((port == 2) && ilck_2[ovch]) || 
                    ((port == 3) && ilck_3[ovch]) || 
-                   ((port == 4) && ilck_4[ovch]) ||
-                   (multab_en && ilck_4[ovch]) ); 
+                   (((port == 4) || (multab_en == `MULTABS)) && ilck_4[ovch]) ); 
 
 /*  
  * Flit-level transmission control

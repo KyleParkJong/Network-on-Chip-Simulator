@@ -70,7 +70,7 @@ input   [`VCHW:0]       ivch_0;
 input   [`PORTW:0]      port_0;   
 input                   req_0;
 output  [`PORT:0]       grt_0;    
-input                   multab_0;    
+input   [`DSTATUS:0]    multab_0;    
 
 
 input   [`DATAW:0]      idata_1;  
@@ -79,7 +79,7 @@ input   [`VCHW:0]       ivch_1;
 input   [`PORTW:0]      port_1;   
 input                   req_1;
 output  [`PORT:0]       grt_1;  
-input                   multab_1;      
+input   [`DSTATUS:0]    multab_1;      
 
 input   [`DATAW:0]      idata_2;  
 input                   ivalid_2; 
@@ -87,7 +87,7 @@ input   [`VCHW:0]       ivch_2;
 input   [`PORTW:0]      port_2;   
 input                   req_2;
 output  [`PORT:0]       grt_2;  
-input                   multab_2;      
+input   [`DSTATUS:0]    multab_2;      
 
 input   [`DATAW:0]      idata_3;  
 input                   ivalid_3; 
@@ -95,7 +95,7 @@ input   [`VCHW:0]       ivch_3;
 input   [`PORTW:0]      port_3;   
 input                   req_3;
 output  [`PORT:0]       grt_3;  
-input                   multab_3;      
+input   [`DSTATUS:0]    multab_3;      
 
 input   [`DATAW:0]      idata_4;  
 input                   ivalid_4; 
@@ -103,7 +103,7 @@ input   [`VCHW:0]       ivch_4;
 input   [`PORTW:0]      port_4;   
 input                   req_4;  
 output  [`PORT:0]       grt_4;  
-input                   multab_4;    
+input   [`DSTATUS:0]    multab_4;    
 
 output  [`DATAW:0]      odata_0;  
 output                  ovalid_0; 
@@ -156,6 +156,12 @@ muxcont #( 0 ) muxcont_0 (
         .port_4   ( port_4   ), 
         .req_4    ( req_4    ),
 
+        .multab_0 ( multab_0 ),
+        .multab_1 ( multab_1 ),
+        .multab_2 ( multab_2 ),
+        .multab_3 ( multab_3 ),
+        .multab_4 ( multab_4 ),
+
         .sel ( cb_sel_0 ), 
         .grt ( cb_grt_0 ),
 
@@ -180,6 +186,12 @@ muxcont #( 1 ) muxcont_1 (
 
         .port_4   ( port_4   ), 
         .req_4    ( req_4    ),
+
+        .multab_0 ( multab_0 ),
+        .multab_1 ( multab_1 ),
+        .multab_2 ( multab_2 ),
+        .multab_3 ( multab_3 ),
+        .multab_4 ( multab_4 ),
 
         .sel ( cb_sel_1 ), 
         .grt ( cb_grt_1 ),
@@ -206,6 +218,12 @@ muxcont #( 2 ) muxcont_2 (
         .port_4   ( port_4   ), 
         .req_4    ( req_4    ),
 
+        .multab_0 ( multab_0 ),
+        .multab_1 ( multab_1 ),
+        .multab_2 ( multab_2 ),
+        .multab_3 ( multab_3 ),
+        .multab_4 ( multab_4 ),
+
         .sel ( cb_sel_2 ), 
         .grt ( cb_grt_2 ),
 
@@ -230,6 +248,12 @@ muxcont #( 3 ) muxcont_3 (
 
         .port_4   ( port_4   ), 
         .req_4    ( req_4    ),
+
+        .multab_0 ( multab_0 ),
+        .multab_1 ( multab_1 ),
+        .multab_2 ( multab_2 ),
+        .multab_3 ( multab_3 ),
+        .multab_4 ( multab_4 ),
 
         .sel ( cb_sel_3 ), 
         .grt ( cb_grt_3 ),

@@ -17,20 +17,20 @@ parameter MY_YPOS = 0;
 input	[`DATAW:0]	bdata0;
 input				en;
 
-output	[`PORTW:0]	port;
-output	[`VCHW:0]	ovch;
-output	[`MADDR:0]	addr1_rm;
-output				multab_en;
+output	[`PORTW:0]		port;
+output	[`VCHW:0]		ovch;
+output	[`MADDR:0]		addr1_rm;
+output	[`DSTATUS:0]	multab_en;	// 2bits
 
 input	clk;
 input	rst_;
 
-wire	[`PORTW:0]	port0;
-reg		[`PORTW:0]	port1;
-wire	[`VCHW:0]	ovch0;
-reg		[`VCHW:0]	ovch1;
-wire				multab_en0;
-reg					multab_en1;
+wire	[`PORTW:0]		port0;
+reg		[`PORTW:0]		port1;
+wire	[`VCHW:0]		ovch0;
+reg		[`VCHW:0]		ovch1;
+wire	[`DSTATUS:0]	multab_en0;
+reg		[`DSTATUS:0]	multab_en1;
 
 wire				um_type;
 wire	[`UADDR:0]	addr0;

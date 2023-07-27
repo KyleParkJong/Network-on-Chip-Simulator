@@ -55,8 +55,8 @@
 `define FIFO_P1         17 
 `define FIFOD           4 
 `define FIFOD_P1        5 
-`define PKTLEN          16 
-`define PKTLEN_P1       17       // Max flit per message 
+`define PKTLEN          8 
+`define PKTLEN_P1       9       // Max flit per message 
 
 /* Port number (5-port) */        
 `define PORT            4         
@@ -83,3 +83,8 @@
 `define ARRAYW_P1       3               
 `define ARRAY_DIV2      2         
 
+/* Data Status */
+`define DSTATUS         1           // 2bits
+`define UNICAST         2'b00       // Unicast      
+`define MULTFWD         2'b10       // Multicast & Forward
+`define MULTABS         2'b11       // Multicast & Absorb

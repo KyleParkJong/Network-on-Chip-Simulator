@@ -174,11 +174,11 @@ wire            ic_req_3;
 wire            ic_req_4; 
 
 /* Wires form input to corssbar*/
-wire            multab_0;
-wire            multab_1;
-wire            multab_2;
-wire            multab_3;
-wire            multab_4;
+wire [`DSTATUS:0] multab_0;
+wire [`DSTATUS:0] multab_1;
+wire [`DSTATUS:0] multab_2;
+wire [`DSTATUS:0] multab_3;
+wire [`DSTATUS:0] multab_4;
 
 /* 
  * Wires from crossbar (cb_) 
