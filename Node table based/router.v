@@ -175,6 +175,7 @@ wire            ic_req_4;
 
 /* Wires form input to corssbar*/
 <<<<<<< HEAD
+<<<<<<< HEAD
 wire [`DSTATUS:0] multab_0;
 wire [`DSTATUS:0] multab_1;
 wire [`DSTATUS:0] multab_2;
@@ -187,6 +188,13 @@ wire            fwdab_2;
 wire            fwdab_3;
 wire            fwdab_4;
 >>>>>>> parent of 66a1952 (7.20 version)
+=======
+wire            multab_0;
+wire            multab_1;
+wire            multab_2;
+wire            multab_3;
+wire            multab_4;
+>>>>>>> parent of 558ce32 (7.25 version)
 
 /* 
  * Wires from crossbar (cb_) 

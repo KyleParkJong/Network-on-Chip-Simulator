@@ -72,10 +72,14 @@ input                   grt_4;
 output  [`PORTW:0]      port;   
 output                  req;    
 <<<<<<< HEAD
+<<<<<<< HEAD
 output  [`DSTATUS:0]    multab_en;
 =======
 output  [`VCH:0]        fwdab_en;
 >>>>>>> parent of 66a1952 (7.20 version)
+=======
+output  [`VCH:0]        multab_en;
+>>>>>>> parent of 558ce32 (7.25 version)
 
 input   clk, rst_;              
 

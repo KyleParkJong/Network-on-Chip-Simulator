@@ -16,13 +16,7 @@ module muxcont (
         req_4,    
 
         sel, 
-        grt,
-
-        multab_0,
-        multab_1,
-        multab_2,
-        multab_3,
-        multab_4, 
+        grt, 
 
         clk, 
         rst_ 
@@ -45,12 +39,15 @@ input  [`PORTW:0] port_4;
 input             req_4;    
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 input  [`DSTATUS:0] multab_0;
 input  [`DSTATUS:0] multab_1;
 input  [`DSTATUS:0] multab_2;
 input  [`DSTATUS:0] multab_3;
 input  [`DSTATUS:0] multab_4;
 
+=======
+>>>>>>> parent of 558ce32 (7.25 version)
 output [`PORT:0]  sel;          
 output [`PORT:0]  grt;          
 
@@ -69,6 +66,7 @@ wire   [`PORT:0]  grt0;
 wire   [`PORT:0]  hold; 
 wire              anyhold;
 <<<<<<< HEAD
+<<<<<<< HEAD
 wire              multab_en;
 
 assign multab_en = ((multab_0[1]) |          // Multicast check
@@ -86,6 +84,15 @@ assign  req[2]  = multab_en ? (multab_2[1] & req_2 & (port_2 == PORTID)) : (req_
 assign  req[3]  = multab_en ? (multab_3[1] & req_3 & (port_3 == PORTID)) : (req_3 & (port_3 == PORTID)); 
 assign  req[4]  = multab_en ? (multab_4[1] & req_4 & (port_4 == PORTID)) : (req_4 & (port_4 == PORTID));
 =======
+=======
+   
+/* Request */
+assign  req[0]  = req_0 & (port_0 == PORTID); 
+assign  req[1]  = req_1 & (port_1 == PORTID); 
+assign  req[2]  = req_2 & (port_2 == PORTID); 
+assign  req[3]  = req_3 & (port_3 == PORTID); 
+assign  req[4]  = req_4 & (port_4 == PORTID); 
+>>>>>>> parent of 558ce32 (7.25 version)
 
 
 // 자기 PORTID 에 해당되는 포트만 req 확인

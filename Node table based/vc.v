@@ -56,10 +56,14 @@ input                   grt_3;
 input                   grt_4; 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 input   [`DSTATUS:0]    multab_en;
 =======
 input   [`FWDAB:0]     fwdab_en;
 >>>>>>> parent of 66a1952 (7.20 version)
+=======
+input                   multab_en;
+>>>>>>> parent of 558ce32 (7.25 version)
 
 output                  req;  
 input   [`PORTW:0]      port; 
@@ -99,11 +103,16 @@ assign  ilck    = (
                    ((port == 2) && ilck_2[ovch]) || 
                    ((port == 3) && ilck_3[ovch]) || 
 <<<<<<< HEAD
+<<<<<<< HEAD
                    (((port == 4) || (multab_en == `MULTABS)) && ilck_4[ovch]) ); 
 =======
                    ((port == 4) && ilck_4[ovch]) ||
                    (fwdab_en && ilck_4[ovch]) ); 
 >>>>>>> parent of 66a1952 (7.20 version)
+=======
+                   ((port == 4) && ilck_4[ovch]) ||
+                   (multab_en && ilck_4[ovch]) ); 
+>>>>>>> parent of 558ce32 (7.25 version)
 
 /*  
  * Flit-level transmission control
