@@ -95,4 +95,11 @@
 
 `define ARBITER_TYPE    `FIXED_PRIORITY
 
-      
+/* Priority Configuration
+ * North:0, East:1, West:3, South:2, Eject:4 
+ */
+`define PRI_0           4
+`define PRI_1           3 
+`define PRI_2           0
+`define PRI_3           1 
+`define PRI_4           2
