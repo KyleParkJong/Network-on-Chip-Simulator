@@ -1,17 +1,14 @@
 `include "define.h" 
-module arb ( 
+module arb_fixed ( 
         u_req,        
         m_req, 
         grt,
-        multab_ct,    
-        clk, 
-        rst_ 
+        multab_ct   
 );
 
 input  [`PORT:0]  u_req;      // Unicast request
 input  [`PORT:0]  m_req;      // Multicast request
 input  [`PORT:0]  multab_ct;  // Multicast & Absorb contention
-input             clk, rst_;
 output [`PORT:0]  grt;    
 
 reg [`PORT:0] grt0;

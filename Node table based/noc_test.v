@@ -971,16 +971,16 @@ begin
         n0_ivalid_p0 <= `Disable;   
         for ( id = 0; id < len; id = id + 1 ) 
                 packet[id] <= 0; 
-        #(STEP) // # delay operator
+        #(STEP)
         if (len == 1) // Header
                 packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEADTAIL; 
         else 
                 packet[0][`TYPE_MSB:`TYPE_LSB] <= `TYPE_HEAD;
-        packet[0][`UM_TYPE] <= 0; //Mul/Uni     
+        packet[0][`UM_TYPE] <= 0; // Mul/Uni     
         packet[0][`DST_MSB:`DST_LSB] <= dst;    /* Dest ID (11-bit) (62~52)*/
         packet[0][`SRC_MSB:`SRC_LSB] <= 0;     /* Source ID (5-bit) (2~6)*/
         packet[0][`VCH_MSB:`VCH_LSB] <= vch;    /* Vch ID (2-bit)    (0~1)*/
-        for ( id = 1; id < len; id = id + 1 ) begin //body,tail bit 
+        for ( id = 1; id < len; id = id + 1 ) begin // body,tail bit 
                 if ( id == len - 1 )
                         packet[id][`TYPE_MSB:`TYPE_LSB] <= `TYPE_TAIL; 
                 else 

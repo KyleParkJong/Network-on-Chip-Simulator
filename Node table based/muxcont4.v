@@ -29,9 +29,10 @@ module muxcont4 (
         clk, 
         rst_ 
 );
-parameter       PORTID = 4; 
 
-//input
+parameter        PORTID = 4;               
+
+/* input */
 input  [`PORTW:0] port_0;   
 input             req_0;    
 
@@ -107,16 +108,35 @@ assign  multab_ct[2] = m_req[2] & (~grt[2]);
 assign  multab_ct[3] = m_req[3] & (~grt[3]);
 assign  multab_ct[4] = m_req[4] & (~grt[4]);
 
-/*                     
- * Arbiter              
- */                    
-arb a0 (               
-        .u_req       ( u_req ),         // input
-        .m_req       ( m_req ),         // input
-        .grt         ( grt0 ),          // output
-        .multab_ct ( `PORT_P1'b0 ),
-        .clk ( clk  ), 
-        .rst_( rst_ )
-);                    
+
+/* Arbiter */
+generate
+    if ( `ARBITER_TYPE == `FIXED_PRIORITY ) begin           
+        arb_fixed a0 (               
+            .u_req       ( u_req ),         // input
+            .m_req       ( m_req ),         // input
+            .grt         ( grt0 ),          // output
+            .multab_ct   ( `PORT_P1'b0 )
+        );           
+    end
+    else if ( `ARBITER_TYPE == `ROUND_ROBIN ) begin
+        arb_roundrobin a0 (
+            .u_req       ( u_req ),         
+            .m_req       ( m_req ),         
+            .grt         ( grt0 ),          
+            .multab_ct   ( `PORT_P1'b0 ),
+            .clk         ( clk ),
+            .rst_        ( rst_ )
+        );
+    end 
+    else begin  // Default
+        arb_fixed a0 (               
+            .u_req       ( u_req ),         
+            .m_req       ( m_req ),         
+            .grt         ( grt0 ),          
+            .multab_ct   ( `PORT_P1'b0 )
+        );
+    end 
+endgenerate
 
 endmodule

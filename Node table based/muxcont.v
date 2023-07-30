@@ -100,13 +100,33 @@ assign  grt[3]  = anyhold ? hold[3] : grt0[3];
 assign  grt[4]  = anyhold ? hold[4] : grt0[4]; 
 
 /* Arbiter */                    
-arb a0 (               
-        .u_req       ( u_req ),        // input
-        .m_req       ( m_req ),        // input
-        .grt         ( grt0 ),         // output
-        .multab_ct   ( multab_ct ),    // input
-        .clk ( clk  ), 
-        .rst_( rst_ )
-);                     
+generate
+    if ( `ARBITER_TYPE == `FIXED_PRIORITY ) begin
+        arb_fixed a0 (               
+            .u_req       ( u_req ),     
+            .m_req       ( m_req ),     
+            .grt         ( grt0 ),      
+            .multab_ct   ( multab_ct )  
+        );         
+    end 
+    else if ( `ARBITER_TYPE == `ROUND_ROBIN ) begin
+        arb_roundrobin a0 (               
+            .u_req       ( u_req ),       
+            .m_req       ( m_req ),       
+            .grt         ( grt0 ),        
+            .multab_ct   ( multab_ct ),
+            .clk         ( clk ),
+            .rst_        ( rst_ )    
+        );
+    end 
+    else begin   // Default
+        arb_fixed a0 (               
+            .u_req       ( u_req ),      
+            .m_req       ( m_req ),      
+            .grt         ( grt0 ),       
+            .multab_ct   ( multab_ct )   
+        );
+    end
+endgenerate
 
 endmodule

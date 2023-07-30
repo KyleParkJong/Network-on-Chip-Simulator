@@ -1,5 +1,5 @@
 `include "define.h" 
-module arb ( 
+module arb_roundrobin ( 
         u_req,        
         m_req, 
         grt,

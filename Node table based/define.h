@@ -88,3 +88,11 @@
 `define UNICAST         2'b00       // Unicast      
 `define MULTFWD         2'b10       // Multicast && Forward
 `define MULTABS         2'b11       // Multicast && Absorb
+
+/* Arbiter Configurations */
+`define FIXED_PRIORITY  0      
+`define ROUND_ROBIN     1 
+
+`define ARBITER_TYPE    `FIXED_PRIORITY
+
+      
