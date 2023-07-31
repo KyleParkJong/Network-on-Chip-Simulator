@@ -89,17 +89,17 @@
 `define MULTFWD         2'b10       // Multicast && Forward
 `define MULTABS         2'b11       // Multicast && Absorb
 
-/* Arbiter Configurations */
+/* Arbitrations */
 `define FIXED_PRIORITY  0      
 `define ROUND_ROBIN     1 
 
-`define ARBITER_TYPE    `FIXED_PRIORITY
+/* Routing Algorithms */
+`define XY_DOR          0
+`define YX_DOR          1
 
-/* Priority Configuration
- * North:0, East:1, West:3, South:2, Eject:4 
- */
-`define PRI_0           4
-`define PRI_1           3 
-`define PRI_2           0
-`define PRI_3           1 
-`define PRI_4           2
+/* NEWS */
+`define NORTH       0
+`define EAST        1
+`define WEST        3
+`define SOUTH       2
+`define EJECT       4

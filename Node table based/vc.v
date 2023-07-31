@@ -1,4 +1,4 @@
-`include "define.h" 
+`include "define.v" 
 module vc ( 
         bdata,  
         send,   

@@ -1,5 +1,5 @@
 /* test module for noc.v */ 
-`include "define.h"     
+`include "define.v"     
 `timescale 1ns/10ps 
 
 module noc_test; 

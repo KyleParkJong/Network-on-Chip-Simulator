@@ -1,4 +1,4 @@
-`include "define.h" 
+`include "define.v" 
 module mux ( 
         idata_0,  
         ivalid_0, 

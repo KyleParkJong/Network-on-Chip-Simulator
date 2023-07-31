@@ -1,4 +1,5 @@
-`include "define.h" 
+`include "define.v"
+`include "parameters.v"
 module arb_roundrobin ( 
         u_req,        
         m_req, 
@@ -194,11 +195,11 @@ end
 
 always @ (posedge clk) begin 
 	if (rst_ == `Enable_) begin 
-		pri[0]  <= 2;           /* client0's initial priority */  // Left:port, Right:priority
-		pri[1]  <= 3;           /* client1's initial priority */ 
-		pri[2]  <= 4;           /* client2's initial priority */ 
-		pri[3]  <= 1;           /* client3's initial priority */ 
-		pri[4]  <= 0;           /* client4's initial priority */ 
+		pri[`PRI_0]  <= 0;           /* client0's initial priority */  // Left:port, Right:priority
+		pri[`PRI_1]  <= 1;           /* client1's initial priority */ 
+		pri[`PRI_2]  <= 2;           /* client2's initial priority */ 
+		pri[`PRI_3]  <= 3;           /* client3's initial priority */ 
+		pri[`PRI_4]  <= 4;           /* client4's initial priority */ 
 	end else if (grt[0]) begin 
 		pri[0]  <= `PORT;  // `PORT = 4
 		if (pri[1] > pri[0]) pri[1]     <= pri[1] - 1; 

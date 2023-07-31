@@ -1,4 +1,4 @@
-`include "define.h" 
+`include "define.v" 
 module cb ( 
         idata_0,  
         ivalid_0, 
@@ -63,6 +63,7 @@ module cb (
         clk, 
         rst_ 
 );
+
 
 input   [`DATAW:0]      idata_0;  
 input                   ivalid_0; 

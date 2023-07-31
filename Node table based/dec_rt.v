@@ -1,4 +1,5 @@
-`include "define.h" 
+`include "define.v"
+`include "parameters.v"
 module dec_rt (
 	um_type,
 	addr0,
@@ -77,10 +78,25 @@ always @ (*) begin
 	end
 end
 
-routing_table #(MY_XPOS, MY_YPOS) u0(
-    .mdst_xpos(dst_xpos),  // 3bits
-    .mdst_ypos(dst_ypos),  // 2bits
-    .port(port)            // output
-);
+generate
+    case ( `ROUTING_ALGORITHM )
+    `XY_DOR : 
+        begin
+            routing_table_xy #(MY_XPOS, MY_YPOS) rt0(
+                .mdst_xpos(dst_xpos),  // 3bits
+                .mdst_ypos(dst_ypos),  // 2bits
+                .port(port)            // output
+            );
+        end
+    `YX_DOR :
+        begin
+            routing_table_yx #(MY_XPOS, MY_YPOS) rt0(
+                .mdst_xpos(dst_xpos),  
+                .mdst_ypos(dst_ypos),  
+                .port(port)            
+            );
+        end
+    endcase
+endgenerate
 
 endmodule

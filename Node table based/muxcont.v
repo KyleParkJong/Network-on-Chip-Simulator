@@ -1,4 +1,5 @@
-`include "define.h" 
+`include "define.v" 
+`include "parameters.v"
 module muxcont ( 
         port_0,   
         req_0,    
@@ -29,6 +30,8 @@ module muxcont (
         clk, 
         rst_ 
 );
+
+
 parameter       PORTID = 0;     
 
 input  [`PORTW:0] port_0;   
@@ -101,32 +104,28 @@ assign  grt[4]  = anyhold ? hold[4] : grt0[4];
 
 /* Arbiter */                    
 generate
-    if ( `ARBITER_TYPE == `FIXED_PRIORITY ) begin
-        arb_fixed a0 (               
-            .u_req       ( u_req ),     
-            .m_req       ( m_req ),     
-            .grt         ( grt0 ),      
-            .multab_ct   ( multab_ct )  
-        );         
-    end 
-    else if ( `ARBITER_TYPE == `ROUND_ROBIN ) begin
-        arb_roundrobin a0 (               
-            .u_req       ( u_req ),       
-            .m_req       ( m_req ),       
-            .grt         ( grt0 ),        
-            .multab_ct   ( multab_ct ),
-            .clk         ( clk ),
-            .rst_        ( rst_ )    
-        );
-    end 
-    else begin   // Default
-        arb_fixed a0 (               
-            .u_req       ( u_req ),      
-            .m_req       ( m_req ),      
-            .grt         ( grt0 ),       
-            .multab_ct   ( multab_ct )   
-        );
-    end
+    case ( `ARBITER_TYPE )
+    `FIXED_PRIORITY : 
+        begin
+            arb_fixed a0 (               
+                .u_req       ( u_req ),     
+                .m_req       ( m_req ),     
+                .grt         ( grt0 ),      
+                .multab_ct   ( multab_ct )  
+            );
+        end
+    `ROUND_ROBIN : 
+        begin
+            arb_roundrobin a0 (               
+                .u_req       ( u_req ),       
+                .m_req       ( m_req ),       
+                .grt         ( grt0 ),        
+                .multab_ct   ( multab_ct ),
+                .clk         ( clk ),
+                .rst_        ( rst_ )    
+            );
+        end
+    endcase
 endgenerate
 
 endmodule

@@ -1,4 +1,4 @@
-`include "define.h" 
+`include "define.v" 
 module rtcomp (
 	bdata0,
 	en,

@@ -1,7 +1,7 @@
-`include "define.h" 
 `timescale 1ns/1ps
 
 module dec_rt_tb();
+`include "define.v" 
 
 reg                 um_type;
 reg [`MADDR:0]      addr1;

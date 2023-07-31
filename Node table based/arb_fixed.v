@@ -1,10 +1,12 @@
-`include "define.h" 
+`include "define.v"
+`include "parameters.v"
 module arb_fixed ( 
         u_req,        
         m_req, 
         grt,
         multab_ct   
 );
+
 
 input  [`PORT:0]  u_req;      // Unicast request
 input  [`PORT:0]  m_req;      // Multicast request
@@ -34,5 +36,3 @@ end
 assign grt = grt0;
 
 endmodule
-
-
