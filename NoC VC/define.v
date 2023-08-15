@@ -51,7 +51,7 @@
 
 
 /* Input FIFO (4-element) */ 
-`define FIFO            16 
+`define FIFO            16
 `define FIFO_P1         17 
 `define FIFOD           4 
 `define FIFOD_P1        5 
@@ -65,16 +65,16 @@
 `define PORTW_P1        3         
 
 /* Vch number (1-VC) */   
-`define VCH             0 
-`define VCH_P1          1 
+`define VCH             1 
+`define VCH_P1          2 
 `define VCHW            0 
 `define VCHW_P1         1 
 
-/* Node number (16-node) */        
-`define NODE            15         
-`define NODE_P1         16         
-`define NODEW           3         
-`define NODEW_P1        4         
+/* Node number (20-node) */        
+`define NODE            19         
+`define NODE_P1         20         
+`define NODEW           4         
+`define NODEW_P1        5         
 
 /* Dimenion-order routing */
 `define ENTRYW          3         

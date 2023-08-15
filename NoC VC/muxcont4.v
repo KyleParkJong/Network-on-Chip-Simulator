@@ -31,7 +31,6 @@ module muxcont4 (
         rst_ 
 );
 
-
 parameter        PORTID = 4;               
 
 /* input */

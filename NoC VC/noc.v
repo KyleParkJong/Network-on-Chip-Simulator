@@ -707,6 +707,19 @@ wire    [`VCH:0]        n15_oack_1;
 wire    [`VCH:0]        n15_olck_1;   
 wire    [`VCHW:0]       n15_ovch_1;   
 
+//test
+wire    [10:0]   on0;
+wire    [10:0]   on4;
+wire    [10:0]   on8;
+wire    [10:0]   on12;
+wire    [10:0]   on16;
+
+assign on0 = n0_idata_p0[22:12];
+assign on4 = n4_odata_p0[22:12];
+assign on8 = n8_odata_p0[22:12];
+assign on12 = n12_odata_p0[22:12];
+assign on16 = n16_odata_p0[22:12];
+
 //router call
 
 router #( 0, 0, 0 ) n0 (                // Router ID, XPOS, YPOS
