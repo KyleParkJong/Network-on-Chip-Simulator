@@ -91,5 +91,5 @@ assign  port    =
 
 assign multab_en = 
                   (vcsel[0] == `Enable) ? multab_en0 :
-                  (vcsel[1] == `Enable) ? multab_en1 : `DSTATUS`b0;
+                  (vcsel[1] == `Enable) ? multab_en1 : `DSTATUS'b0;
 endmodule
