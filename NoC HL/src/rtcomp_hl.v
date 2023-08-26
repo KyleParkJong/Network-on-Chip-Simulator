@@ -67,6 +67,7 @@ dec_hl #(MY_XPOS, MY_YPOS) d0 (
 		.uni_dst(addr0),
 		.mult_dst(addr1),
 		.src_pos(src_pos),
+		.src_dst(src_dst),
 
 		.port(port0),
 		.doc_send(doc_send),

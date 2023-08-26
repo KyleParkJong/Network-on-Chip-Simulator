@@ -5,7 +5,9 @@ module u_mesh_algorithm(
     l1_dst,     
     l2_dst,
     mult_dst, 
-    src_pos,             
+    src_pos,
+    src_dst,
+
     next_pos,      
     doc,
     state      
@@ -24,6 +26,7 @@ input [`MADDR:0] l1_dst;
 input [`MADDR:0] l2_dst;
 input [`MADDR:0] mult_dst;
 input [1:0] src_pos;           // 처음 SRC의 1~4 사분면에서의 위치
+input [`MSRC_BW:0] src_dst;
 
 output [`NODEW:0] next_pos;         // 다음 목적지 라우터 값 출력
 output [`MADDR:0] doc;         // 전송해야하는 부분의 doc 출력
@@ -56,13 +59,15 @@ always @(*) begin
     l1_left  = find_left_bit(l1_dst);
     l1_right  = find_right_bit(l1_dst);
 
-    if ( (l2_num > 1) || ((l2_num == 1) && (right != SOURCE)) )  
-        state = `UMESH_UNI_CENTER;
-    else if ( (l2_num == 1) && (right == SOURCE) && (l1_num > 1) )
+    if ( (l2_num == 1) && (l1_num > 1) && (l2_dst[SOURCE] == 1) )
         state = `UMESH_MULT_COL;
-    else
+    else if ( (l2_num == 1) && (l1_num == 1) && (l2_dst[SOURCE] == 1) )
         state = `UMESH_MULT_ROW;            
-
+    else if ( ((l2_num > 1) && (l2_dst[SOURCE] == 1)) || (src_dst == SOURCE) )
+        state = `UMESH_UNI_CENTER;
+    else 
+        state = `UMESH_UNI;
+    
     case (state) 
         `UMESH_UNI_CENTER : // Unicast center
             begin 
@@ -353,6 +358,30 @@ always @(*) begin
                         end
                     end
                 end
+            end
+        `UMESH_UNI : 
+            begin
+                doc = mult_dst;     // Keep the previous doc
+
+                cnt = 1;
+                // Send to closest L2 dst
+                if ( SOURCE*2 < (right+left) ) begin  // Case 1 : Send right
+                    for (i = SOURCE+1; (i < `ROUTER_NUM) && cnt; i = i + 1) begin
+                        if ( l2_dst[i] == 1) begin
+                            next_pos = i;
+                            cnt = 0;
+                        end
+                    end
+                end
+                else begin      // Case 2 : Send left
+                    for (i = SOURCE-1; (i >= 0) && cnt; i = i - 1) begin
+                        if ( l2_dst[i] == 1 ) begin  
+                            next_pos = i;
+                            cnt = 0;
+                        end
+                    end
+                end
+
             end
     endcase
 end

@@ -22,5 +22,5 @@
 /* Mesh size */
 `define ROW     4
 `define COLUMN  5
-`define ROUTER_NUM  `ROW *`COLUMN
+`define ROUTER_NUM  `ROW *`COLUMN // 20
 `define MAX_ROUTER  `ROUTER_NUM - 1

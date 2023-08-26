@@ -6,6 +6,7 @@ module dec_hl (
 	uni_dst,
 	mult_dst,
     src_pos,
+    src_dst,
 
 	port,
     doc_send,      
@@ -26,6 +27,7 @@ input um_type;
 input [`NODEW:0] uni_dst;
 input [`MADDR:0] mult_dst;
 input [1:0] src_pos;
+input [`MSRC_BW:0] src_dst;
 
 output     [2:0]    port;
 output reg [`MADDR:0]   doc_send;       // DOC sent to cb
@@ -82,13 +84,15 @@ always @(*) begin
 end 
 
 u_mesh_algorithm #(MY_XPOS, MY_YPOS) u_mesh (
-    .l1_dst(l1_dst),        // input 
-    .l2_dst(l2_dst),        // input
-    .mult_dst(mult_dst),    // input
-    .src_pos(src_pos),      // input
-    .next_pos(next_pos0),    // output : Single destination to send
-    .doc(doc_send0),        // output : Half DOC destinations data
-    .state(umesh_state0)    // output : current state in UMESH Algorithm
+    .l1_dst(l1_dst),        
+    .l2_dst(l2_dst),        
+    .mult_dst(mult_dst),    
+    .src_pos(src_pos),      
+    .src_dst(src_dst),      
+
+    .next_pos(next_pos0),   
+    .doc(doc_send0),        
+    .state(umesh_state0)    
 );
     
 
