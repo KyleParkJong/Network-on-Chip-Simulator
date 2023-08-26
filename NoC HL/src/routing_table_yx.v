@@ -1,23 +1,20 @@
-`include "define.v" 
 module routing_table_yx(
-    mdst_xpos,
-    mdst_ypos,
+    next_pos,
     port
     );
 
 parameter MY_XPOS = 0;
 parameter MY_YPOS = 0;
 
-input   [2:0]   mdst_xpos;        
-input   [1:0]   mdst_ypos;        
-output	[`PORTW:0]	    port;
-reg 	[`PORTW:0]	    port;
+input   [4:0]   next_pos;   // Node 개수에 따라 bit 수 달라짐
+output	[2:0]	    port;
+reg 	[2:0]	    port;
 
 /* YX DOR */
 generate
 if (MY_XPOS == 0 && MY_YPOS == 0) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 4;
             5'b00001 : port = 2;
             5'b00010 : port = 2;
@@ -38,12 +35,12 @@ if (MY_XPOS == 0 && MY_YPOS == 0) begin
             5'b10001 : port = 2;
             5'b10010 : port = 2;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 0 && MY_YPOS == 1)) begin
+end else if (MY_XPOS == 0 && MY_YPOS == 1) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 4;
             5'b00010 : port = 2;
@@ -64,12 +61,12 @@ end else if ((MY_XPOS == 0 && MY_YPOS == 1)) begin
             5'b10001 : port = 1;
             5'b10010 : port = 2;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 0 && MY_YPOS == 2)) begin
+end else if (MY_XPOS == 0 && MY_YPOS == 2) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 0;
             5'b00010 : port = 4;
@@ -90,12 +87,12 @@ end else if ((MY_XPOS == 0 && MY_YPOS == 2)) begin
             5'b10001 : port = 0;
             5'b10010 : port = 1;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 0 && MY_YPOS == 3)) begin
+end else if (MY_XPOS == 0 && MY_YPOS == 3) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 0;
             5'b00010 : port = 0;
@@ -116,12 +113,12 @@ end else if ((MY_XPOS == 0 && MY_YPOS == 3)) begin
             5'b10001 : port = 0;
             5'b10010 : port = 0;
             5'b10011 : port = 1;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 1 && MY_YPOS == 0)) begin
+end else if (MY_XPOS == 1 && MY_YPOS == 0) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 3;
             5'b00001 : port = 2;
             5'b00010 : port = 2;
@@ -142,12 +139,12 @@ end else if ((MY_XPOS == 1 && MY_YPOS == 0)) begin
             5'b10001 : port = 2;
             5'b10010 : port = 2;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 1 && MY_YPOS == 1)) begin
+end else if (MY_XPOS == 1 && MY_YPOS == 1) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 3;
             5'b00010 : port = 2;
@@ -168,12 +165,12 @@ end else if ((MY_XPOS == 1 && MY_YPOS == 1)) begin
             5'b10001 : port = 1;
             5'b10010 : port = 2;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 1 && MY_YPOS == 2)) begin
+end else if (MY_XPOS == 1 && MY_YPOS == 2) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 0;
             5'b00010 : port = 3;
@@ -194,12 +191,12 @@ end else if ((MY_XPOS == 1 && MY_YPOS == 2)) begin
             5'b10001 : port = 0;
             5'b10010 : port = 1;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 1 && MY_YPOS == 3)) begin
+end else if (MY_XPOS == 1 && MY_YPOS == 3) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 0;
             5'b00010 : port = 0;
@@ -220,12 +217,12 @@ end else if ((MY_XPOS == 1 && MY_YPOS == 3)) begin
             5'b10001 : port = 0;
             5'b10010 : port = 0;
             5'b10011 : port = 1;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 2 && MY_YPOS == 0)) begin
+end else if (MY_XPOS == 2 && MY_YPOS == 0) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 3;
             5'b00001 : port = 2;
             5'b00010 : port = 2;
@@ -246,12 +243,12 @@ end else if ((MY_XPOS == 2 && MY_YPOS == 0)) begin
             5'b10001 : port = 2;
             5'b10010 : port = 2;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 2 && MY_YPOS == 1)) begin
+end else if (MY_XPOS == 2 && MY_YPOS == 1) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 3;
             5'b00010 : port = 2;
@@ -272,12 +269,12 @@ end else if ((MY_XPOS == 2 && MY_YPOS == 1)) begin
             5'b10001 : port = 1;
             5'b10010 : port = 2;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 2 && MY_YPOS == 2)) begin
+end else if (MY_XPOS == 2 && MY_YPOS == 2) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 0;
             5'b00010 : port = 3;
@@ -298,12 +295,12 @@ end else if ((MY_XPOS == 2 && MY_YPOS == 2)) begin
             5'b10001 : port = 0;
             5'b10010 : port = 1;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 2 && MY_YPOS == 3)) begin
+end else if (MY_XPOS == 2 && MY_YPOS == 3) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 0;
             5'b00010 : port = 0;
@@ -324,12 +321,12 @@ end else if ((MY_XPOS == 2 && MY_YPOS == 3)) begin
             5'b10001 : port = 0;
             5'b10010 : port = 0;
             5'b10011 : port = 1;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 3 && MY_YPOS == 0)) begin
+end else if (MY_XPOS == 3 && MY_YPOS == 0) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 3;
             5'b00001 : port = 2;
             5'b00010 : port = 2;
@@ -350,12 +347,12 @@ end else if ((MY_XPOS == 3 && MY_YPOS == 0)) begin
             5'b10001 : port = 2;
             5'b10010 : port = 2;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 3 && MY_YPOS == 1)) begin
+end else if (MY_XPOS == 3 && MY_YPOS == 1) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 3;
             5'b00010 : port = 2;
@@ -376,12 +373,12 @@ end else if ((MY_XPOS == 3 && MY_YPOS == 1)) begin
             5'b10001 : port = 1;
             5'b10010 : port = 2;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 3 && MY_YPOS == 2)) begin
+end else if (MY_XPOS == 3 && MY_YPOS == 2) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 0;
             5'b00010 : port = 3;
@@ -402,12 +399,12 @@ end else if ((MY_XPOS == 3 && MY_YPOS == 2)) begin
             5'b10001 : port = 0;
             5'b10010 : port = 1;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 3 && MY_YPOS == 3)) begin
+end else if (MY_XPOS == 3 && MY_YPOS == 3) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 0;
             5'b00010 : port = 0;
@@ -428,12 +425,12 @@ end else if ((MY_XPOS == 3 && MY_YPOS == 3)) begin
             5'b10001 : port = 0;
             5'b10010 : port = 0;
             5'b10011 : port = 1;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 4 && MY_YPOS == 0)) begin
+end else if (MY_XPOS == 4 && MY_YPOS == 0) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 3;
             5'b00001 : port = 2;
             5'b00010 : port = 2;
@@ -454,12 +451,12 @@ end else if ((MY_XPOS == 4 && MY_YPOS == 0)) begin
             5'b10001 : port = 2;
             5'b10010 : port = 2;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 4 && MY_YPOS == 1)) begin
+end else if (MY_XPOS == 4 && MY_YPOS == 1) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 3;
             5'b00010 : port = 2;
@@ -480,12 +477,12 @@ end else if ((MY_XPOS == 4 && MY_YPOS == 1)) begin
             5'b10001 : port = 4;
             5'b10010 : port = 2;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 4 && MY_YPOS == 2)) begin
+end else if (MY_XPOS == 4 && MY_YPOS == 2) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 0;
             5'b00010 : port = 3;
@@ -506,12 +503,12 @@ end else if ((MY_XPOS == 4 && MY_YPOS == 2)) begin
             5'b10001 : port = 0;
             5'b10010 : port = 4;
             5'b10011 : port = 2;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
-end else if ((MY_XPOS == 4 && MY_YPOS == 3)) begin
+end else if (MY_XPOS == 4 && MY_YPOS == 3) begin
     always @(*) begin
-        case ({mdst_xpos, mdst_ypos})
+        case (next_pos)
             5'b00000 : port = 0;
             5'b00001 : port = 0;
             5'b00010 : port = 0;
@@ -532,7 +529,7 @@ end else if ((MY_XPOS == 4 && MY_YPOS == 3)) begin
             5'b10001 : port = 0;
             5'b10010 : port = 0;
             5'b10011 : port = 4;
-            default  : port = `PORT_P1'bx;
+            default  : port = 5'bx;
         endcase
     end
 end

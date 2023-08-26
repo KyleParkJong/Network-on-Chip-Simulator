@@ -23,6 +23,7 @@
 `define MDST_MSB        62
 `define MSRC_LSB        2                   
 `define MSRC_MSB        6
+`define MSRC_BW         `MSRC_MSB-`MSRC_LSB // multi source addr bitwidth
 `define MVCH_LSB        0                 
 `define MVCH_MSB        1
 `define DST_LSB         52                   
@@ -69,6 +70,7 @@
 `define VCH_P1          1 
 `define VCHW            0 
 `define VCHW_P1         1 
+`define VCH_R           `VCH_P1 * 3 - 1
 
 /* Node number (16-node) */        
 `define NODE            19         

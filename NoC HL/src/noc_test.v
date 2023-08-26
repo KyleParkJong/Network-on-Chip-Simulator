@@ -440,45 +440,11 @@ initial begin
         #(STEP);
     end
 
-    $write("*** Send multicast (src: 1 dst: 5,9,13,17 vch: 0 len: 9) *** \n");
-    send_packet_m_1 (56'b100010001000100000, 0, 9);
+    $write("*** Send multicast (src: 1 dst: 2,4,7,9,10,11,12,14,15,17,19 vch: 0 len: 9) *** \n");
+    send_packet_m_1 (56'b1010_1101_1110_1001_0100, 0, 9);
+    
 end
 
-/* packet generator for n2 */
-initial begin
-    #(STEP / 2);
-    #(STEP * 10);
-    while (~ready) begin
-        #(STEP);
-    end
-
-    $write("*** Send multicast (src: 2 dst: 7,11,15,19 vch: 0 len: 9) *** \n");
-    send_packet_m_2 (56'b10001000100010000000, 0, 9);
-end
-
-/* packet generator for n12 */
-initial begin
-    #(STEP / 2);
-    #(STEP * 10);
-    while (~ready) begin
-        #(STEP);
-    end
-
-    $write("*** Send unicast (src: 12 dst: 13 vch: 0 len: 15) *** \n");
-    send_packet_u_12 (13, 0, 15);
-end
-
-/* packet generator for n16 */
-initial begin
-    #(STEP / 2);
-    #(STEP * 10);
-    while (~ready) begin
-        #(STEP);
-    end
-
-    $write("*** Send unicast (src: 16 dst: 19 vch: 0 len: 15) *** \n");
-    send_packet_u_16 (19, 0, 15);
-end
 
 /* Send/recv event monitor */ 
 always @ (posedge clk) begin 

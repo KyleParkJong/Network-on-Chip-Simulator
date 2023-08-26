@@ -25,7 +25,7 @@ input [`MADDR:0] l2_dst;
 input [`MADDR:0] mult_dst;
 input [1:0] src_pos;           // 처음 SRC의 1~4 사분면에서의 위치
 
-output [4:0] next_pos;         // 다음 목적지 라우터 값 출력
+output [`NODEW:0] next_pos;         // 다음 목적지 라우터 값 출력
 output [`MADDR:0] doc;         // 전송해야하는 부분의 doc 출력
 output [1:0] state;
 
@@ -39,7 +39,7 @@ integer l1_num, l2_num;
 integer left, right;
 integer l1_left, l1_right;
 
-reg [4:0] next_pos;
+reg [`NODEW:0] next_pos;
 reg [`MADDR:0] doc;
 reg [`MADDR:0] l2_doc;
 reg [`MADDR:0] l2_remain;
@@ -56,7 +56,7 @@ always @(*) begin
     l1_left  = find_left_bit(l1_dst);
     l1_right  = find_right_bit(l1_dst);
 
-    if ( ((l2_num > 1) || ((l2_num == 1) && (right != SOURCE))) && (l1_num > 1) )   // 무조건 l1_num이 1개보다 많아야
+    if ( (l2_num > 1) || ((l2_num == 1) && (right != SOURCE)) )  
         state = `UMESH_UNI_CENTER;
     else if ( (l2_num == 1) && (right == SOURCE) && (l1_num > 1) )
         state = `UMESH_MULT_COL;
@@ -327,7 +327,7 @@ always @(*) begin
 
         `UMESH_MULT_ROW : 
             begin
-                if ( doc[SOURCE] == 1 ) begin
+                if ( mult_dst[SOURCE] == 1 ) begin
                     doc = mult_dst; 
                     doc[SOURCE] = 0;
                 end 

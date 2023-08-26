@@ -6,7 +6,7 @@ function automatic [`MADDR:0] find_l1 (
     input [`MADDR:0] mult_dst,  // addr1
     input [1:0] src_pos
 );
-integer i, j;
+integer i, j; 
 integer flag;
 reg [`MADDR:0] dst;
 begin
@@ -97,38 +97,50 @@ end
 endfunction
 
 /* Count number of 1 */
-function integer count_dst(input [`MADDR:0] dst);
-integer i;
+function automatic integer count_dst(input [`MADDR:0] dst);
+integer i, cnt;
 begin
-    count_dst = 0;
-    for ( i = dst; i > 0; i = i >> 1 )
-        count_dst = count_dst + (i & 1);
+    cnt = 0;
+    for ( i = 0; i < `MADDR+1; i = i + 1 )
+        if ( dst[i] == 1 ) 
+            cnt = cnt + 1;
+    count_dst = cnt;
 end
 endfunction
 
-function automatic integer find_center_bit( 
-    input [`MADDR:0] mult_dst,
-    input integer ceiling       // 0:floor, 1:ceiling, 2:center==source
-);
-integer i;
-integer dst_num;
-integer left, right;
-integer cnt;
-begin
-    dst_num = count_dst(mult_dst);
-    left = find_left_bit(mult_dst);
-    right = find_right_bit(mult_dst);
+// /* Count number of 1 */
+// function integer count_dst(input [`MADDR:0] dst);
+// integer i; 
+// begin
+//     count_dst = 0;
+//     for ( i = dst; i > 0; i = i >> 1 )
+//         count_dst = count_dst + (i & 1);
+// end
+// endfunction
 
-    if (ceiling == 2)
-        cnt = dst_num/2;
-    else
-        cnt = dst_num/2 + (ceiling | (dst_num%2));
+// function automatic integer find_center_bit( 
+//     input [`MADDR:0] mult_dst,
+//     input integer ceiling       // 0:floor, 1:ceiling, 2:center==source
+// );
+// integer i;
+// integer dst_num;
+// integer left, right;
+// integer cnt;
+// begin
+//     dst_num = count_dst(mult_dst);
+//     left = find_left_bit(mult_dst);
+//     right = find_right_bit(mult_dst);
 
-    for (i = right; (i < left+1) && cnt; i = i + 1) begin
-        if (mult_dst[i])
-            cnt = cnt - 1;
-    end
+//     if (ceiling == 2)
+//         cnt = dst_num/2;
+//     else
+//         cnt = dst_num/2 + (ceiling | (dst_num%2));
 
-    find_center_bit = i-1;
-end
-endfunction
+//     for (i = right; (i < left+1) && cnt; i = i + 1) begin
+//         if (mult_dst[i])
+//             cnt = cnt - 1;
+//     end
+
+//     find_center_bit = i-1;
+// end
+// endfunction
