@@ -25,3 +25,32 @@ initial begin
     $write("*** Send multicast (src: 16 dst: 2,5,6,7,8,9,11,14,15,18 vch: 0 len: 9) *** \n");
     send_packet_m_16 (56'b0100_1100_1011_1110_0100, 0, 9);
 end
+
+------------
+
+/* packet generator for n1 */
+initial begin
+    #(STEP / 2);
+    #(STEP * 10);
+    while (~ready) begin
+        #(STEP);
+    end
+
+    $write("*** Send multicast (src: 1 dst: 5,9,13,17 vch: 0 len: 9) *** \n");
+    send_packet_m_1 (56'b100010001000100000, 0, 9);
+end
+
+/* packet generator for n2 */
+initial begin
+    #(STEP / 2);
+    #(STEP * 10);
+    while (~ready) begin
+        #(STEP);
+    end
+
+    $write("*** Send multicast (src: 2 dst: 6,7,10,11,14,15,18,19 vch: 0 len: 9) *** \n");
+    send_packet_m_2 (56'b11001100110011000000, 0, 9);
+end
+
+
+------------------

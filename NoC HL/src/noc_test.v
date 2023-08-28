@@ -445,7 +445,6 @@ initial begin
 end
 
 
-
 /* Send/recv event monitor */ 
 always @ (posedge clk) begin 
         if ( n0_ivalid_p0 == `Enable ) begin 
