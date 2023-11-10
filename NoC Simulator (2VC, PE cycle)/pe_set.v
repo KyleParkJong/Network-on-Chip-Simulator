@@ -70,7 +70,7 @@ output  [`VCHW:0]   p18_ovch_p0;
 
 input   clk, rst_;
 
-pe #( 6, 1, 2 ) p6 (       // PE ID, XPOS, YPOS
+pe_cycle #( 6, 1, 2 ) p6 (       // PE ID, XPOS, YPOS
     .idata  ( p6_idata_p0 ),
     .ivalid ( p6_ivalid_p0 ),
     .irdy   ( p6_irdy_p0 ),
@@ -83,7 +83,7 @@ pe #( 6, 1, 2 ) p6 (       // PE ID, XPOS, YPOS
     .rst_   ( rst_ )
 );
 
-pe #( 10, 2, 2 ) p10 (       // PE ID, XPOS, YPOS
+pe_cycle #( 10, 2, 2 ) p10 (       // PE ID, XPOS, YPOS
     .idata  ( p10_idata_p0 ),
     .ivalid ( p10_ivalid_p0 ),
     .irdy   ( p10_irdy_p0 ),
@@ -96,7 +96,7 @@ pe #( 10, 2, 2 ) p10 (       // PE ID, XPOS, YPOS
     .rst_   ( rst_ )
 );
 
-pe #( 14, 3, 2 ) p14 (       // PE ID, XPOS, YPOS
+pe_cycle #( 14, 3, 2 ) p14 (       // PE ID, XPOS, YPOS
     .idata  ( p14_idata_p0 ),
     .ivalid ( p14_ivalid_p0 ),
     .irdy   ( p14_irdy_p0 ),
@@ -109,7 +109,7 @@ pe #( 14, 3, 2 ) p14 (       // PE ID, XPOS, YPOS
     .rst_   ( rst_ )
 );
 
-pe #( 18, 2, 2 ) p18 (       // PE ID, XPOS, YPOS
+pe_cycle #( 18, 2, 2 ) p18 (       // PE ID, XPOS, YPOS
     .idata  ( p18_idata_p0 ),
     .ivalid ( p18_ivalid_p0 ),
     .irdy   ( p18_irdy_p0 ),

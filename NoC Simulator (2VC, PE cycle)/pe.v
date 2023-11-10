@@ -1,7 +1,7 @@
 // Exist only for cycle simulation (No computation)
 `include "define.v"
 `include "parameters.v"
-module pe (
+module pe_cycle (
     idata,      // <-> nX_odata_p0      (X : Router id)
     ivalid,     // <-> nX_ovalid_p0
     irdy,       // <-> &nX_ordy_p0

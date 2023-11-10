@@ -1,4 +1,4 @@
-# NoC simulator for simulating intra-chip data flow in Neural Network Accelerator
+# NoC Simulator for simulating intra-chip data flow in Neural Network Accelerator
 > Kyle Jonghyuk Park, Ko Ryeowook
 
 # Introduction
@@ -8,9 +8,22 @@
 
 # Project Summary
 - Developed a 2D Mesh NoC simulator in Verilog to verify different tile structures and efficient dataflow of a neural network accelerator
-- Implemented the Based Routing Conformed Paths (BRCP) model for both unicast and multicast transmissions in NoC
-- Implemented a multicast algorithm by advancing the Hierarchical Leader-Based (HL) scheme 
+- Implemented the Based Routing Conformed Paths (BRCP) model to support both unicast and multicast transmissions in NoC
+- Applied advanced multicast algorithm: Advanced Hierarchical Leader-Based (HL) scheme
+    * ./NoC Simulator (HL)
 - Parameterized the simulator's options to improve usability
+
+# Block Diagram
+## Top
+<img src="/image/top.png" width="30%" height="30%" title="top" alt="top"></img>
+
+## Router
+<img src="/image/router.png" width="30%" height="30%" title="router" alt="router"></img>
+
+## Routing Computation & Crossbar
+<img src="/image/routing computation.png" width="30%" height="30%" title="rc" alt="rc"></img>
+<img src="/image/crossbar.png" width="30%" height="30%" title="cb" alt="cb"></img>
+
 
 # Reference
 - Simba: Scaling Deep-Learning Inference with Multi-Chip-Module-Based Architecture [LINK](https://research.nvidia.com/publication/2019-10_simba-scaling-deep-learning-inference-multi-chip-module-based-architecture)
