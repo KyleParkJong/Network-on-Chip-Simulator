@@ -15,14 +15,14 @@
 
 # Block Diagram
 ## Top
-<img src="/image/top.png" width="30%" height="30%" title="top" alt="top"></img>
+<img src="/image/top.png" width="65%" height="65%" title="top" alt="top"></img>
 
 ## Router
 <img src="/image/router.png" width="30%" height="30%" title="router" alt="router"></img>
 
 ## Routing Computation & Crossbar
-<img src="/image/routing computation.png" width="30%" height="30%" title="rc" alt="rc"></img>
-<img src="/image/crossbar.png" width="30%" height="30%" title="cb" alt="cb"></img>
+<img src="/image/routing computation.png" width="40%" height="40%" title="rc" alt="rc"></img>
+<img src="/image/crossbar.png" width="40%" height="40%" title="cb" alt="cb"></img>
 
 
 # Reference
