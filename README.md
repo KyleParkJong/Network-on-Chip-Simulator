@@ -50,7 +50,7 @@
 * Multicast algorithm for sending data from one source to multiple destinations
 * The HL scheme is proposed by a paper that proposed BRCP model ("Multidestination message passing in wormhole k-ary n-cube networks with base routing conformed paths")
 
-# Advanced HL scheme
+# Our Advanced HL scheme
 <img src="/image/advanced_hl.png" width="80%" height="80%" title="advanced hl" alt="advanced hl"></img>
 
 1. Divide the Mesh NoC into four quadrants and determine L1, L2 with the algorithm specified for the quadrant where the source is located.
@@ -58,8 +58,8 @@
 3. Proceed multicast in the specified col and row directions based on the quadrant where the source is located.
 
 ## Advanced HL vs Original HL
-<img src="/image/table.png" width="50%" height="50%" title="table" alt="table"></img>
-<img src="/image/graph.png" width="45%" height="45%" title="graph" alt="graph"></img>
+<img src="/image/table.png" width="55%" height="55%" title="table" alt="table"></img>
+<img src="/image/graph.png" width="35%" height="35%" title="graph" alt="graph"></img>
 
 # Simulation Result
 # Case 1: NoC Simulator (HL)
