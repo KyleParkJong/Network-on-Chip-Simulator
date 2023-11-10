@@ -13,6 +13,7 @@
 - Implemented the Based Routing Conformed Paths (BRCP) model to support both unicast and multicast
     + "Forward & Absorb" multicast mechanism
     + Can avoid multicast-unicast routing deadlock since multicast and unicast share the same network paths
+    + Unicast vs Multicast: Mulitcast priority
 - Applied advanced multicast algorithm: Advanced Hierarchical Leader-Based (HL) scheme (NoC Simulator (HL))
     * More efficient in cycle than the original HL scheme
 - Parameterized the simulator's options to improve usability (define.v, parameters.v)
@@ -60,21 +61,33 @@
 <img src="/image/table.png" width="65%" height="45%" title="table" alt="table"></img>
 <img src="/image/graph.png" width="45%" height="45%" title="graph" alt="graph"></img>
 
+# Simulation Result
 # Case 1: NoC Simulator (HL)
 ### Simulation Scenario
 <img src="/image/case1.png" width="45%" height="45%" title="case1" alt="case1"></img>
 
 ### Case 1 result
-<img src="/image/case1 result.png" width="90%" height="90%" title="result" alt="result"></img>
+<img src="/image/case1 result.png" width="100%" height="100%" title="result" alt="result"></img>
 
-<img src="/image/case1 wave.png" width="90%" height="90%" title="wave" alt="wave"></img>
+<img src="/image/case1 wave.png" width="100%" height="100%" title="wave" alt="wave"></img>
 
 # Case 2: NoC Simulator (2VC, PE cycle)
 ### Simulation Scenario
-<img src="/image/case2.png" width="45%" height="45%" title="case2" alt="case2"></img>
+<img src="/image/case2.png" width="50%" height="50%" title="case2" alt="case2"></img>
+
+* Contention between row-by-row multicast, and partial-sum (PSUM) unicast transmissions sent after PE internal MAC operations during SIMBA dataflow.
 
 ### Case 2 result
+Row 2: IA Multicast & PE MAC cycle
+<img src="/image/case2 wave1.png" width="45%" height="45%" title="case1" alt="case1"></img>
 
+Row 3: IA Multicast & PSUM contention
+<img src="/image/case2 wave2.png" width="45%" height="45%" title="case1" alt="case1"></img>
+
+### Simulator log and options
+<img src="/image/result2.png" width="45%" height="45%" title="result2" alt="result2"></img>
+
+- Simulation logs & Simulator Configuration options (define.v, parameters.v)
 
 # Reference
 - Simba: Scaling Deep-Learning Inference with Multi-Chip-Module-Based Architecture [LINK](https://research.nvidia.com/publication/2019-10_simba-scaling-deep-learning-inference-multi-chip-module-based-architecture)
