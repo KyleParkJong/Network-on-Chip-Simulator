@@ -80,11 +80,11 @@
 ### Case 2 result
 Row 2: IA Multicast & PE MAC cycle
 
-<img src="/image/case2 wave1.png" width="90%" height="90%" title="case1" alt="case1"></img>
+<img src="/image/case2 wave1.png" width="100%" height="100%" title="case1" alt="case1"></img>
 
 Row 3: IA Multicast & PSUM contention
 
-<img src="/image/case2 wave2.png" width="90%" height="90%" title="case1" alt="case1"></img>
+<img src="/image/case2 wave2.png" width="100%" height="100%" title="case1" alt="case1"></img>
 
 ### Simulator log and options
 <img src="/image/result2.png" width="90%" height="90%" title="result2" alt="result2"></img>
