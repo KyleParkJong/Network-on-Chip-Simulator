@@ -1,5 +1,5 @@
 # NoC Simulator for simulating intra-chip data flow in Neural Network Accelerator
-> Kyle Jonghyuk Park, Ko Ryeowook
+> Konkuk University: SoC Design Lab. (Kyle Jonghyuk Park, Ko Ryeowook)
 
 # Introduction
 > In cutting-edge neural network accelerators, our project analyzes SIMBA, NVIDIA's NN accelerator, and its Network on-Chip (NoC) structure. We aim to uncover its strengths and weaknesses while also addressing the need for advanced simulators. To this end, we have developed a unique simulator that supports __both multicast and unicast__ data transmissions, filling a critical gap in existing tools. Our work contributes to the advancement of neural network accelerator research, enabling efficient data processing in the era of AI and deep learning.
