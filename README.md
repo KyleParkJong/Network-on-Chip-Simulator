@@ -36,8 +36,10 @@
 * Forward & Absorb
 
 ## PE Cycle module
-<img src="/image/simba pe2.png" width="45%" height="45%" title="simba pe2" alt="simba pe2"></img>
+<img src="/image/simba pe2.png" width="35%" height="35%" title="simba pe2" alt="simba pe2"></img>
 <img src="/image/pe cycle.png" width="40%" height="40%" title="pe cycle" alt="pe cycle"></img>
+
+Left: SIMBA proposed PE archiecture, Right: PE cycle module
 
 * PE cycle module is only used for cycle simulation
 * 1 MAC: 8 cycles, total 128 MAC: 1024 cycles 
