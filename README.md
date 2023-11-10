@@ -18,12 +18,14 @@
 <img src="/image/top.png" width="65%" height="65%" title="top" alt="top"></img>
 
 ## Router
-<img src="/image/router.png" width="30%" height="30%" title="router" alt="router"></img>
+<img src="/image/router.png" width="45%" height="45%" title="router" alt="router"></img>
 
 ## Routing Computation & Crossbar
-<img src="/image/routing computation.png" width="40%" height="40%" title="rc" alt="rc"></img>
-<img src="/image/crossbar.png" width="40%" height="40%" title="cb" alt="cb"></img>
+<img src="/image/routing computation.png" width="45%" height="45%" title="rc" alt="rc"></img>
+<img src="/image/crossbar.png" width="45%" height="45%" title="cb" alt="cb"></img>
 
+## PE Cycle module
+<img src="/image/pe cycle.png" width="45%" height="45%" title="pe cycle" alt="pe cycle"></img>
 
 # Reference
 - Simba: Scaling Deep-Learning Inference with Multi-Chip-Module-Based Architecture [LINK](https://research.nvidia.com/publication/2019-10_simba-scaling-deep-learning-inference-multi-chip-module-based-architecture)
