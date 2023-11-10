@@ -37,7 +37,6 @@
 
 ## PE Cycle module
 <img src="/image/simba pe2.png" width="35%" height="35%" title="simba pe2" alt="simba pe2"></img>
-
 <img src="/image/pe cycle.png" width="35%" height="35%" title="pe cycle" alt="pe cycle"></img>
 
 
