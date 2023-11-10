@@ -44,7 +44,7 @@
 * If you don't need a cycle simulation for PE computation, you can delete this module. The NoC Simulator will still work.
 
 # Original HL scheme
-<img src="/image/original hl.png" width="40%" height="40%" title="original hl" alt="original hl"></img>
+<img src="/image/original hl.png" width="55%" height="55%" title="original hl" alt="original hl"></img>
 
 * Multicast algorithm for sending data from one source to multiple destinations
 * The HL scheme is proposed by a paper that proposed BRCP model ("Multidestination message passing in wormhole k-ary n-cube networks with base routing conformed paths")
