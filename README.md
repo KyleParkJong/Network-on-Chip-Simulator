@@ -50,7 +50,7 @@
 * The HL scheme is proposed by a paper that proposed BRCP model ("Multidestination message passing in wormhole k-ary n-cube networks with base routing conformed paths")
 
 # Advanced HL scheme
-<img src="/image/advanced hl.png" width="40%" height="40%" title="advanced hl" alt="advanced hl"></img>
+<img src="/image/advanced_hl.png" width="40%" height="40%" title="advanced hl" alt="advanced hl"></img>
 
 1. Divide the Mesh NoC into four quadrants and determine L1, L2 with the algorithm specified for the quadrant where the source is located.
 2. Through U-mesh algorithm, send data with one L2 as the first destination among multiple L2s
