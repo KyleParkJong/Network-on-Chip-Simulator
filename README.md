@@ -4,8 +4,6 @@
 # Introduction
 > In cutting-edge neural network accelerators, our project analyzes SIMBA, NVIDIA's NN accelerator, and its Network on-Chip (NoC) structure. We aim to uncover its strengths and weaknesses while also addressing the need for advanced simulators. To this end, we have developed a unique simulator that supports __both multicast and unicast__ data transmissions, filling a critical gap in existing tools. Our work contributes to the advancement of neural network accelerator research, enabling efficient data processing in the era of AI and deep learning.
 
-[Simba: Scaling Deep-Learning Inference with Multi-Chip-Module-Based Architecture](https://research.nvidia.com/publication/2019-10_simba-scaling-deep-learning-inference-multi-chip-module-based-architecture)
-
 # Project Summary
 - Developed a 2D Mesh NoC simulator in Verilog to verify different tile structures and efficient dataflow of a neural network accelerator
     * Flit-based flow control: wormhole
@@ -37,16 +35,36 @@
 * Forward & Absorb
 
 ## PE Cycle module
-<img src="/image/simba acc.png" width="45%" height="45%" title="simba acc" alt="simba acc"></img>
-<img src="/image/pe cycle.png" width="45%" height="45%" title="pe cycle" alt="pe cycle"></img>
+<img src="/image/simba pe2.png" width="45%" height="45%" title="simba pe2" alt="simba pe2"></img>
+<img src="/image/pe cycle.png" width="40%" height="40%" title="pe cycle" alt="pe cycle"></img>
 
 * PE cycle module is only used for cycle simulation
-* MAC: 8 cycles, total 128 MAC: 1024 cycles 
+* 1 MAC: 8 cycles, total 128 MAC: 1024 cycles 
     + Refer to SIMBA paper: ResNet-50 (res4a_branch1)
+* If you don't need a cycle simulation for PE computation, you can delete this module. The NoC Simulator will still work.
+
+# Original HL scheme
+<img src="/image/original hl.png" width="40%" height="40%" title="original hl" alt="original hl"></img>
+
+* Multicast algorithm for sending data from one source to multiple destinations
+* The HL scheme is proposed by a paper that proposed BRCP model ("Multidestination message passing in wormhole k-ary n-cube networks with base routing conformed paths")
+
+# Advanced HL scheme
+<img src="/image/advanced hl.png" width="40%" height="40%" title="advanced hl" alt="advanced hl"></img>
+
+1. Divide the Mesh NoC into four quadrants and determine L1, L2 with the algorithm specified for the quadrant where the source is located.
+2. Through U-mesh algorithm, send data with one L2 as the first destination among multiple L2s
+3. Proceed multicast in the specified col and row directions based on the quadrant where the source is located.
+
+## Advanced HL vs Original HL
+<img src="/image/table.png" width="40%" height="40%" title="table" alt="table"></img>
+<img src="/image/graph.png" width="40%" height="40%" title="graph" alt="graph"></img>
+
 
 # Reference
 - Simba: Scaling Deep-Learning Inference with Multi-Chip-Module-Based Architecture [LINK](https://research.nvidia.com/publication/2019-10_simba-scaling-deep-learning-inference-multi-chip-module-based-architecture)
 - D. K. Panda, S. Singal and R. Kesavan, "Multidestination message passing in wormhole k-ary n-cube networks with base routing conformed paths," in IEEE Transactions on Parallel and Distributed Systems, vol. 10, no. 1, pp. 76-96, Jan. 1999, doi: 10.1109/71.744844. [LINK](https://ieeexplore.ieee.org/document/744844)
+- NoCGEN: "An open-source on-chip router model originally developed for [Matsutani_HPCA09]" [LINK](https://github.com/matutani/nocgen)
 
 # Helpful books
 - On-Chip Networks, Second Edition (Natalie Enright Jerger, Tushar Krishna, Li-Shiuan Peh)
