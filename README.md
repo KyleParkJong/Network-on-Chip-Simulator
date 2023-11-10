@@ -60,6 +60,16 @@
 <img src="/image/table.png" width="65%" height="45%" title="table" alt="table"></img>
 <img src="/image/graph.png" width="45%" height="45%" title="graph" alt="graph"></img>
 
+# Result
+# Case 1: NoC Simulator (HL)
+### Simulation Scenario
+<img src="/image/case1.png" width="45%" height="45%" title="case1" alt="case1"></img>
+
+### Case1 result
+<img src="/image/case1 result.png" width="45%" height="45%" title="result" alt="result"></img>
+
+<img src="/image/case1 wave.png" width="45%" height="45%" title="wave" alt="wave"></img>
+
 
 # Reference
 - Simba: Scaling Deep-Learning Inference with Multi-Chip-Module-Based Architecture [LINK](https://research.nvidia.com/publication/2019-10_simba-scaling-deep-learning-inference-multi-chip-module-based-architecture)
