@@ -44,21 +44,21 @@
 * If you don't need a cycle simulation for PE computation, you can delete this module. The NoC Simulator will still work.
 
 # Original HL scheme
-<img src="/image/original hl.png" width="55%" height="55%" title="original hl" alt="original hl"></img>
+<img src="/image/original hl.png" width="60%" height="60%" title="original hl" alt="original hl"></img>
 
 * Multicast algorithm for sending data from one source to multiple destinations
 * The HL scheme is proposed by a paper that proposed BRCP model ("Multidestination message passing in wormhole k-ary n-cube networks with base routing conformed paths")
 
 # Advanced HL scheme
-<img src="/image/advanced_hl.png" width="40%" height="40%" title="advanced hl" alt="advanced hl"></img>
+<img src="/image/advanced_hl.png" width="60%" height="60%" title="advanced hl" alt="advanced hl"></img>
 
 1. Divide the Mesh NoC into four quadrants and determine L1, L2 with the algorithm specified for the quadrant where the source is located.
 2. Through U-mesh algorithm, send data with one L2 as the first destination among multiple L2s
 3. Proceed multicast in the specified col and row directions based on the quadrant where the source is located.
 
 ## Advanced HL vs Original HL
-<img src="/image/table.png" width="40%" height="40%" title="table" alt="table"></img>
-<img src="/image/graph.png" width="40%" height="40%" title="graph" alt="graph"></img>
+<img src="/image/table.png" width="65%" height="45%" title="table" alt="table"></img>
+<img src="/image/graph.png" width="45%" height="45%" title="graph" alt="graph"></img>
 
 
 # Reference
