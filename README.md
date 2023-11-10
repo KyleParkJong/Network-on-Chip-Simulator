@@ -58,7 +58,7 @@
 3. Proceed multicast in the specified col and row directions based on the quadrant where the source is located.
 
 ## Advanced HL vs Original HL
-<img src="/image/table.png" width="65%" height="45%" title="table" alt="table"></img>
+<img src="/image/table.png" width="50%" height="50%" title="table" alt="table"></img>
 <img src="/image/graph.png" width="45%" height="45%" title="graph" alt="graph"></img>
 
 # Simulation Result
