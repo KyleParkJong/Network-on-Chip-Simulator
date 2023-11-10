@@ -8,10 +8,20 @@
 
 # Project Summary
 - Developed a 2D Mesh NoC simulator in Verilog to verify different tile structures and efficient dataflow of a neural network accelerator
-- Implemented the Based Routing Conformed Paths (BRCP) model to support both unicast and multicast transmissions in NoC
-- Applied advanced multicast algorithm: Advanced Hierarchical Leader-Based (HL) scheme
-    * ./NoC Simulator (HL)
-- Parameterized the simulator's options to improve usability
+    * Flit-based flow control: wormhole
+    * Virtual Channel
+    * Lookahead routing pipeline (4-cycle)
+    * Credit-based buffer backpressure
+- Implemented the Based Routing Conformed Paths (BRCP) model to support both unicast and multicast
+    + "Forward & Absorb" multicast mechanism
+    + Can avoid multicast-unicast routing deadlock since multicast and unicast share the same network paths
+- Applied advanced multicast algorithm: Advanced Hierarchical Leader-Based (HL) scheme (NoC Simulator (HL))
+    * More efficient in cycle than the original HL scheme
+- Parameterized the simulator's options to improve usability (define.v, parameters.v)
+    * Routing Algorithm: XY / YX DOR
+    * Arbiter Configurations: Fixed priority / Round robin priority
+    * Priority Configuration
+    * Flit Configuration
 
 # Block Diagram
 ## Top
@@ -24,8 +34,15 @@
 <img src="/image/routing computation.png" width="45%" height="45%" title="rc" alt="rc"></img>
 <img src="/image/crossbar.png" width="45%" height="45%" title="cb" alt="cb"></img>
 
+* Forward & Absorb
+
 ## PE Cycle module
+<img src="/image/simba acc.png" width="45%" height="45%" title="simba acc" alt="simba acc"></img>
 <img src="/image/pe cycle.png" width="45%" height="45%" title="pe cycle" alt="pe cycle"></img>
+
+* PE cycle module is only used for cycle simulation
+* MAC: 8 cycles, total 128 MAC: 1024 cycles 
+    + Refer to SIMBA paper: ResNet-50 (res4a_branch1)
 
 # Reference
 - Simba: Scaling Deep-Learning Inference with Multi-Chip-Module-Based Architecture [LINK](https://research.nvidia.com/publication/2019-10_simba-scaling-deep-learning-inference-multi-chip-module-based-architecture)
