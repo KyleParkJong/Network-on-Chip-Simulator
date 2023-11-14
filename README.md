@@ -29,6 +29,8 @@ In cutting-edge neural network accelerators, our project analyzes SIMBA, NVIDIA'
 ## Router
 <img src="/image/router.png" width="45%" height="45%" title="router" alt="router"></img>
 
+- Virtual channel used (Logical data path)
+
 ## Routing Computation & Crossbar
 <img src="/image/routing computation.png" width="45%" height="45%" title="rc" alt="rc"></img>
 <img src="/image/crossbar.png" width="45%" height="45%" title="cb" alt="cb"></img>
@@ -61,7 +63,7 @@ Left: SIMBA proposed PE archiecture, Right: PE cycle module
 3. Proceed multicast in the specified col and row directions based on the quadrant where the source is located.
 
 ## Advanced HL vs Original HL
-<img src="/image/table.png" width="55%" height="55%" title="table" alt="table"></img>
+<img src="/image/table.png" width="55%" height="70%" title="table" alt="table"></img>
 <img src="/image/graph.png" width="35%" height="35%" title="graph" alt="graph"></img>
 
 # Simulation Result
