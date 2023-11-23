@@ -1,5 +1,5 @@
 # NoC Simulator for simulating intra-chip data flow in Neural Network Accelerator
-> Konkuk University: SoC Design Lab. (Kyle Jonghyuk Park, Ko Ryeowook)
+> Konkuk University (Kyle Jonghyuk Park, Ko Ryeowook)
 
 # Introduction
 In cutting-edge neural network accelerators, our project analyzes SIMBA, NVIDIA's NN accelerator, and its Network on-Chip (NoC) structure. We aim to uncover its strengths and weaknesses while also addressing the need for advanced simulators. To this end, we have developed a unique simulator that supports __both multicast and unicast__ data transmissions, filling a critical gap in existing tools. Our work contributes to the advancement of neural network accelerator research, enabling efficient data processing in the era of AI and deep learning.
@@ -56,7 +56,7 @@ Left: SIMBA proposed PE archiecture, Right: PE cycle module
 * The HL scheme is proposed by a paper that proposed BRCP model ("Multidestination message passing in wormhole k-ary n-cube networks with base routing conformed paths")
 
 # Our Advanced HL scheme
-<img src="/image/advanced_hl.png" width="80%" height="150" title="advanced hl" alt="advanced hl"></img>
+<img src="/image/advanced_hl.png" width="80%" height="140" title="advanced hl" alt="advanced hl"></img>
 
 1. Divide the Mesh NoC into four quadrants and determine L1, L2 with the algorithm specified for the quadrant where the source is located.
 2. Through U-mesh algorithm, send data with one L2 as the first destination among multiple L2s
