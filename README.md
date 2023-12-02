@@ -41,7 +41,8 @@ In cutting-edge neural network accelerators, our project analyzes SIMBA, NVIDIA'
 
     <img src="/image/data status.png" width="45%" height="45%" title="status" alt="status"></img>
 
-+ Depending on the status of the packet, the crossbar behaves differently
+* Depending on the status of the packet, the crossbar behaves differently
+* Contention between multicast & absorb packet and other packet is well handled by the multab_ct signal
 
 ## PE Cycle module
 <img src="/image/simba pe2.png" width="35%" height="35%" title="simba pe2" alt="simba pe2"></img>
