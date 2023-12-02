@@ -36,7 +36,7 @@ In cutting-edge neural network accelerators, our project analyzes SIMBA, NVIDIA'
 <img src="/image/crossbar.png" width="45%" height="45%" title="cb" alt="cb"></img>
 
 * Forward & Absorb
-* Determine the status of the input packet at dec_rt.v and send it to mux controller in crossbar
+* Determine the status of the input packet at the routing computation logic and send it to the mux controller in crossbar
     + 3 Status: Unicast / Multicast & Forward / Multicast & Absorb
 
     <img src="/image/data status.png" width="45%" height="45%" title="status" alt="status"></img>
