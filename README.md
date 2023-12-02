@@ -36,6 +36,12 @@ In cutting-edge neural network accelerators, our project analyzes SIMBA, NVIDIA'
 <img src="/image/crossbar.png" width="45%" height="45%" title="cb" alt="cb"></img>
 
 * Forward & Absorb
+* Determine the status of the input packet at dec_rt.v and send it to mux controller in crossbar
+    + 3 Status: Unicast / Multicast & Forward / Multicast & Absorb
+
+    <img src="/image/data status.png" width="45%" height="45%" title="status" alt="status"></img>
+
++ Depending on the status of the packet, the crossbar behaves differently
 
 ## PE Cycle module
 <img src="/image/simba pe2.png" width="35%" height="35%" title="simba pe2" alt="simba pe2"></img>
