@@ -256,7 +256,7 @@ noc noc (
 
         /* n6 */ 
         .n6_idata_p0 ( (n6_idata_p1 == `DATAW_P1'b0) ? n6_idata_p0 : n6_idata_p1 ), 
-        .n6_ivalid_p0( (n6_ivalid_p1 = 0) ?  n6_ivalid_p0 : n6_ivalid_p1 ), 
+        .n6_ivalid_p0( (n6_ivalid_p1 == 0) ?  n6_ivalid_p0 : n6_ivalid_p1 ), 
         .n6_ivch_p0  ( (n6_ivch_p1 == `VCHW_P1'b0) ? n6_ivch_p0 : n6_ivch_p1 ), 
         .n6_ordy_p0  ( n6_ordy_p0   ), 
         .n6_odata_p0 ( n6_odata_p0  ), 
